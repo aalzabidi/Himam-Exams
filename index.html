@@ -231,6 +231,9 @@ body{font-family:'Cairo',sans-serif;background:#F0F4F3;color:#1F2937;min-height:
 // ═══════════════════════════════════════════════
 const API_URL = 'https://script.google.com/macros/s/AKfycbzIoconvQFu9siOX3mWfGXRMsl86kNV-9OWLqjN9WXRzIaIHOkN_u0wYFKW98IRf7bs1Q/exec';
 
+// ─── الرمز السري (يجب أن يطابق الموجود في Code.gs) ───
+const SECRET_TOKEN = 'RazHuS7DPKk85NiiaWZAJANTFXRyMCij';
+
 let DATA = { students:{}, evalTable:[], levels:[] };
 let STATE = { warnings:0, errors:0 };
 let currentEval = null;
@@ -239,6 +242,9 @@ let allHistory = [];
 // ─── JSONP helper (GET بدون مشاكل CORS) ───
 function jsonpRequest(params){
   return new Promise((resolve, reject) => {
+    // إضافة الرمز السري والمصدر لكل طلب
+    params.token = SECRET_TOKEN;
+    params.origin = window.location.origin;
     const cbName = 'cb_' + Math.random().toString(36).substr(2,9);
     const timeout = setTimeout(() => {
       delete window[cbName];
@@ -455,7 +461,7 @@ function saveResult(){
         method:'POST',
         mode:'no-cors',
         headers:{'Content-Type':'text/plain;charset=utf-8'},
-        body:JSON.stringify({ action:'saveTestResult', testData:testData })
+        body:JSON.stringify({ action:'saveTestResult', token:SECRET_TOKEN, origin:window.location.origin, testData:testData })
       }).then(()=>{
         document.getElementById('loader').classList.add('hidden');
         const passed = testData.result === 'ناجح';
