@@ -343,16 +343,38 @@ function checkAttempts(){
   const student=document.getElementById('selStudent').value, level=document.getElementById('selLevel').value;
   const box=document.getElementById('attemptBox');
   if(!student||!level){ box.style.display='none'; return; }
-  jsonpRequest({ action:'getAttemptCount', studentName:student, level:level })
+  jsonpRequest({ action:'getAttemptStatus', studentName:student, level:level })
     .then(res=>{
       const count=res.count||0;
-      if(count>0){
-        const remaining=3-count;
-        const cls=remaining<=1?'attempt-info danger':'attempt-info';
+      const status=res.status||'new';
+
+      if(status==='new'){
+        // لا محاولات سابقة → لا نعرض شيئاً
+        box.style.display='none';
+        return;
+      }
+
+      if(status==='passed'){
+        // نجح سابقاً → لا إعادة
         box.style.display='';
-        box.innerHTML=`<div class="${cls}">⚠️ عدد المحاولات السابقة: ${count} من 3 | المتبقي: ${remaining}${remaining===0?'<br><strong>لا يمكن إضافة محاولات جديدة</strong>':''}</div>`;
-        if(remaining===0) document.getElementById('gradingCard').style.display='none';
-      } else box.style.display='none';
+        box.innerHTML=`<div class="attempt-info" style="background:#ECFDF5;color:#065F46">✅ الطالب نجح سابقاً في هذا المستوى (المحاولة ${count}) — لا حاجة للإعادة</div>`;
+        document.getElementById('gradingCard').style.display='none';
+        return;
+      }
+
+      if(status==='excluded'){
+        // 3 محاولات دون نجاح → مستبعد
+        box.style.display='';
+        box.innerHTML=`<div class="attempt-info danger">⛔ استنفد الطالب 3 محاولات دون نجاح — <strong>يُستبعد من هذا المستوى</strong></div>`;
+        document.getElementById('gradingCard').style.display='none';
+        return;
+      }
+
+      // status === 'retry' : لم ينجح ولديه محاولات متبقية
+      const remaining=3-count;
+      const cls=remaining<=1?'attempt-info danger':'attempt-info';
+      box.style.display='';
+      box.innerHTML=`<div class="${cls}">🔄 محاولة إعادة — المحاولات السابقة: ${count} من 3 | المتبقي: ${remaining}<br>هذه ستكون <strong>المحاولة رقم ${count+1}</strong></div>`;
     }).catch(()=>{});
 }
 
@@ -409,16 +431,25 @@ function saveResult(){
   document.getElementById('btnSave').disabled=true;
   document.getElementById('loader').classList.remove('hidden');
 
-  // نتحقق أولا من المحاولات قبل الحفظ لعرض رسالة صحيحة
-  jsonpRequest({ action:'getAttemptCount', studentName:testData.studentName, level:testData.level })
+  // نتحقق أولا من حالة الطالب قبل الحفظ لعرض رسالة صحيحة
+  jsonpRequest({ action:'getAttemptStatus', studentName:testData.studentName, level:testData.level })
     .then(res=>{
       const count=res.count||0;
-      if(count>=3){
+      const status=res.status||'new';
+
+      if(status==='passed'){
         document.getElementById('loader').classList.add('hidden');
-        toast('⚠️ تم استنفاد جميع المحاولات (3) لهذا الطالب في هذا المستوى');
+        toast('✅ الطالب نجح سابقاً في هذا المستوى، لا حاجة للإعادة');
         document.getElementById('btnSave').disabled=false;
         return null;
       }
+      if(status==='excluded'){
+        document.getElementById('loader').classList.add('hidden');
+        toast('⛔ استنفد الطالب 3 محاولات دون نجاح ويُستبعد من هذا المستوى');
+        document.getElementById('btnSave').disabled=false;
+        return null;
+      }
+
       // الحفظ عبر POST
       return fetch(API_URL, {
         method:'POST',
@@ -427,7 +458,17 @@ function saveResult(){
         body:JSON.stringify({ action:'saveTestResult', testData:testData })
       }).then(()=>{
         document.getElementById('loader').classList.add('hidden');
-        toast('✅ تم حفظ النتيجة بنجاح (المحاولة '+(count+1)+')');
+        const passed = testData.result === 'ناجح';
+        if(passed){
+          toast('✅ تم حفظ النتيجة — الطالب ناجح (المحاولة '+(count+1)+')');
+        } else {
+          const remaining = 3-(count+1);
+          if(remaining>0){
+            toast('📝 تم الحفظ — لم يجتز (المحاولة '+(count+1)+') | متبقٍ '+remaining+' محاولة');
+          } else {
+            toast('⛔ تم الحفظ — لم يجتز المحاولة الأخيرة (3/3) ويُستبعد من المستوى');
+          }
+        }
         document.getElementById('btnSave').disabled=false;
         checkAttempts();
       });
