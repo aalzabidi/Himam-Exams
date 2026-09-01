@@ -271,20 +271,43 @@ function jsonpRequest(params){
 
 // ─── Init ───
 window.addEventListener('DOMContentLoaded', () => {
+  // محاولة تحميل البيانات من ذاكرة المتصفح أولاً (لعرض فوري)
+  let usedCache = false;
+  try {
+    const cached = localStorage.getItem('himam_data_cache');
+    const cachedTime = parseInt(localStorage.getItem('himam_data_time') || '0');
+    // صلاحية الكاش المحلي: 12 ساعة
+    if (cached && (Date.now() - cachedTime < 12*60*60*1000)) {
+      DATA = JSON.parse(cached);
+      populateBranches();
+      populateLevels();
+      document.getElementById('loader').classList.add('hidden');
+      usedCache = true;
+    }
+  } catch(e){}
+
+  // جلب البيانات المحدّثة من الخادم (في الخلفية إن كان الكاش مستخدماً)
   jsonpRequest({ action:'getAllData' })
     .then(res => {
       if(res.success){
         DATA = res.data;
         populateBranches();
         populateLevels();
-      } else {
+        // حفظ في ذاكرة المتصفح
+        try {
+          localStorage.setItem('himam_data_cache', JSON.stringify(res.data));
+          localStorage.setItem('himam_data_time', Date.now().toString());
+        } catch(e){}
+      } else if(!usedCache) {
         toast('خطأ: ' + (res.message||'فشل تحميل البيانات'));
       }
       document.getElementById('loader').classList.add('hidden');
     })
     .catch(err => {
-      toast('خطأ في الاتصال: ' + err.message);
-      document.getElementById('loader').classList.add('hidden');
+      if(!usedCache){
+        toast('خطأ في الاتصال: ' + err.message);
+        document.getElementById('loader').classList.add('hidden');
+      }
     });
 });
 
