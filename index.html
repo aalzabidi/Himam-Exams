@@ -3,9 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<title>حاسبة همم | جمعية تعلم</title>
-
-<!-- ═══ PWA Manifest & Icons ═══ -->
+<title>اختبارات همم | جمعية تعلم</title>
 <link rel="manifest" href="manifest.json">
 <link rel="icon" type="image/png" sizes="192x192" href="himam_icon_192.png">
 <link rel="icon" type="image/png" sizes="512x512" href="himam_icon_512.png">
@@ -13,112 +11,116 @@
 <link rel="apple-touch-icon" sizes="512x512" href="himam_icon_512.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="حاسبة همم">
-<meta name="application-name" content="حاسبة همم">
+<meta name="apple-mobile-web-app-title" content="اختبارات همم">
+<meta name="application-name" content="اختبارات همم">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="theme-color" content="#1A6B6A">
-
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 <style>
-:root{
-  --teal:#1A6B6A;--teal-dark:#14524F;--teal-light:#EDF6F5;
-  --gold:#C9A84C;--gold-light:#F5EDDA;
-  --green:#27AE60;--red:#E74C3C;
-  --gray:#6B7280;--gray-light:#F3F4F6;--white:#FFFFFF;
-  --shadow:0 2px 12px rgba(0,0,0,.08);--radius:14px;
-}
+:root{--teal:#1A6B6A;--teal-dark:#14524F;--teal-light:#EDF6F5;--gold:#C9A84C;--gold-light:#F5EDDA;
+--green:#27AE60;--red:#E74C3C;--gray:#6B7280;--gray-light:#F3F4F6;--white:#fff;
+--shadow:0 2px 12px rgba(0,0,0,.08);--radius:14px}
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:'Cairo',sans-serif;background:#F0F4F3;color:#1F2937;min-height:100vh;-webkit-tap-highlight-color:transparent}
-.header{background:linear-gradient(135deg,var(--teal),var(--teal-dark));padding:20px 16px 18px;text-align:center;position:sticky;top:0;z-index:100;box-shadow:0 4px 20px rgba(26,107,106,.25)}
+.header{background:linear-gradient(135deg,var(--teal),var(--teal-dark));padding:18px 16px 16px;text-align:center;position:sticky;top:0;z-index:100;box-shadow:0 4px 20px rgba(26,107,106,.25)}
 .header-logos{display:flex;justify-content:center;align-items:center;gap:14px;margin-bottom:8px}
-.header-logos img{width:44px;height:44px;border-radius:10px;object-fit:contain;background:rgba(255,255,255,.12);padding:3px}
-.header h1{color:var(--white);font-size:18px;font-weight:800;letter-spacing:-.3px}
+.header-logos img{width:42px;height:42px;border-radius:10px;object-fit:contain;background:rgba(255,255,255,.12);padding:3px}
+.header h1{color:#fff;font-size:18px;font-weight:800}
 .header p{color:rgba(255,255,255,.7);font-size:11px;margin-top:2px}
-.tabs{display:flex;background:var(--white);border-bottom:1px solid #E5E7EB;position:sticky;top:90px;z-index:99}
-.tab{flex:1;padding:12px 4px;text-align:center;font-size:13px;font-weight:700;color:var(--gray);border:none;background:none;cursor:pointer;border-bottom:3px solid transparent;transition:all .2s}
+.tabs{display:flex;background:#fff;border-bottom:1px solid #E5E7EB;position:sticky;top:86px;z-index:99}
+.tab{flex:1;padding:11px 2px;text-align:center;font-size:12px;font-weight:700;color:var(--gray);border:none;background:none;cursor:pointer;border-bottom:3px solid transparent;transition:all .2s}
 .tab.active{color:var(--teal);border-bottom-color:var(--teal)}
-.content{padding:16px;max-width:480px;margin:0 auto}
+.content{padding:14px;max-width:520px;margin:0 auto;padding-bottom:70px}
 .page{display:none}.page.active{display:block}
-.card{background:var(--white);border-radius:var(--radius);padding:18px;margin-bottom:14px;box-shadow:var(--shadow)}
-.card-title{font-size:14px;font-weight:800;color:var(--teal);margin-bottom:14px;display:flex;align-items:center;gap:8px}
-.card-title .icon{font-size:18px}
-.field{margin-bottom:14px}
+.card{background:#fff;border-radius:var(--radius);padding:16px;margin-bottom:12px;box-shadow:var(--shadow)}
+.card-title{font-size:14px;font-weight:800;color:var(--teal);margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.field{margin-bottom:12px}
 .field label{display:block;font-size:12px;font-weight:700;color:var(--gray);margin-bottom:6px}
-.field select,.field input{width:100%;padding:11px 14px;border:2px solid #E5E7EB;border-radius:10px;font-family:'Cairo',sans-serif;font-size:14px;background:var(--white);color:#1F2937;appearance:none;-webkit-appearance:none;transition:border-color .2s;outline:none}
+.field select,.field input{width:100%;padding:11px 14px;border:2px solid #E5E7EB;border-radius:10px;font-family:'Cairo',sans-serif;font-size:14px;background:#fff;color:#1F2937;appearance:none;-webkit-appearance:none;outline:none;transition:border-color .2s}
 .field select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236B7280' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:left 14px center;padding-left:36px}
 .field select:focus,.field input:focus{border-color:var(--teal)}
-.counter-row{display:flex;align-items:center;gap:12px;justify-content:space-between;margin-bottom:14px}
+.counter-row{display:flex;align-items:center;gap:12px;justify-content:space-between;margin-bottom:12px}
 .counter-label{font-size:13px;font-weight:700;color:#374151;flex:1}
 .counter-label small{display:block;font-size:10px;color:var(--gray);font-weight:400}
 .counter-controls{display:flex;align-items:center;background:var(--gray-light);border-radius:12px;overflow:hidden}
-.counter-btn{width:42px;height:42px;border:none;background:none;font-size:20px;font-weight:800;color:var(--teal);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .15s}
+.counter-btn{width:42px;height:42px;border:none;background:none;font-size:20px;font-weight:800;color:var(--teal);cursor:pointer;display:flex;align-items:center;justify-content:center}
 .counter-btn:active{background:rgba(26,107,106,.12)}
 .counter-btn.minus{color:var(--red)}
-.counter-val{min-width:36px;text-align:center;font-size:18px;font-weight:800;color:#1F2937}
-.grade-box{text-align:center;padding:20px 16px;border-radius:var(--radius);margin:16px 0;border:2px solid #E5E7EB}
+.counter-val{min-width:36px;text-align:center;font-size:18px;font-weight:800}
+.grade-box{text-align:center;padding:18px 16px;border-radius:var(--radius);margin:14px 0;border:2px solid #E5E7EB}
 .grade-box.pass{background:linear-gradient(135deg,#ECFDF5,#D1FAE5);border-color:var(--green)}
 .grade-box.fail{background:linear-gradient(135deg,#FEF2F2,#FECACA);border-color:var(--red)}
-.grade-number{font-size:48px;font-weight:900;line-height:1}
+.grade-number{font-size:46px;font-weight:900;line-height:1}
 .grade-number.pass{color:var(--green)}.grade-number.fail{color:var(--red)}
-.grade-label{font-size:13px;color:var(--gray);margin-top:4px}
-.grade-result{display:inline-block;margin-top:10px;padding:5px 18px;border-radius:20px;font-size:13px;font-weight:800;color:var(--white)}
+.grade-label{font-size:12px;color:var(--gray);margin-top:4px}
+.grade-result{display:inline-block;margin-top:10px;padding:5px 18px;border-radius:20px;font-size:13px;font-weight:800;color:#fff}
 .grade-result.pass{background:var(--green)}.grade-result.fail{background:var(--red)}
-.level-info{background:var(--teal-light);border-radius:10px;padding:12px 14px;margin-bottom:14px;font-size:12px;color:var(--teal-dark);display:flex;align-items:center;gap:8px}
-.level-info .li-icon{font-size:16px}.level-info .li-details{flex:1}.level-info strong{font-weight:800}
-.btn{width:100%;padding:14px;border:none;border-radius:12px;font-family:'Cairo',sans-serif;font-size:14px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:all .2s;margin-bottom:10px}
-.btn-primary{background:var(--teal);color:var(--white)}.btn-primary:active{background:var(--teal-dark)}
-.btn-whatsapp{background:#25D366;color:var(--white)}.btn-whatsapp:active{background:#1EBE57}
+.level-info{background:var(--teal-light);border-radius:10px;padding:11px 13px;margin-bottom:12px;font-size:12px;color:var(--teal-dark);display:flex;align-items:flex-start;gap:8px}
+.level-info .li-details{flex:1;line-height:1.7}
+.btn{width:100%;padding:13px;border:none;border-radius:12px;font-family:'Cairo',sans-serif;font-size:14px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:9px;transition:all .2s}
+.btn-primary{background:var(--teal);color:#fff}.btn-primary:active{background:var(--teal-dark)}
+.btn-whatsapp{background:#25D366;color:#fff}.btn-whatsapp:active{background:#1EBE57}
 .btn-outline{background:none;border:2px solid #E5E7EB;color:var(--gray)}.btn-outline:active{background:var(--gray-light)}
+.btn-danger{background:var(--red);color:#fff}
+.btn-sm{padding:8px 12px;font-size:12px;width:auto;margin:0}
 .btn:disabled{opacity:.5;pointer-events:none}
-.history-item{background:var(--white);border-radius:12px;padding:14px;margin-bottom:10px;box-shadow:var(--shadow);border-right:4px solid var(--teal)}
-.history-item.fail-item{border-right-color:var(--red)}
-.hi-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px}
-.hi-name{font-size:13px;font-weight:800;color:#1F2937}
-.hi-badge{font-size:10px;font-weight:700;padding:3px 10px;border-radius:12px;color:var(--white)}
-.hi-badge.pass{background:var(--green)}.hi-badge.fail{background:var(--red)}
-.hi-details{display:flex;flex-wrap:wrap;gap:6px}
-.hi-tag{font-size:10px;padding:3px 8px;background:var(--gray-light);border-radius:6px;color:var(--gray)}
-.hi-tag.grade-tag{background:var(--teal-light);color:var(--teal);font-weight:700}
+.notice{border-radius:10px;padding:11px 13px;margin-bottom:12px;font-size:12px;line-height:1.7;display:flex;align-items:flex-start;gap:8px}
+.notice.warn{background:var(--gold-light);color:#92400E}
+.notice.danger{background:#FEF2F2;color:var(--red)}
+.notice.ok{background:#ECFDF5;color:#065F46}
+.notice.info{background:#EFF6FF;color:#1E40AF}
+.notice b{font-weight:800}
+/* ==== السجل ==== */
+.grp-branch{background:#fff;border-radius:var(--radius);margin-bottom:10px;box-shadow:var(--shadow);overflow:hidden}
+.grp-head{padding:13px 14px;font-size:14px;font-weight:800;color:#fff;background:linear-gradient(135deg,var(--teal),var(--teal-dark));cursor:pointer;display:flex;justify-content:space-between;align-items:center}
+.grp-head .cnt{font-size:11px;font-weight:700;background:rgba(255,255,255,.22);padding:2px 9px;border-radius:10px}
+.grp-body{display:none}.grp-body.open{display:block}
+.hal-head{padding:10px 14px;font-size:13px;font-weight:800;color:var(--teal-dark);background:var(--teal-light);border-bottom:1px solid #DCEDEB;cursor:pointer;display:flex;justify-content:space-between;align-items:center}
+.hal-body{display:none;padding:4px 10px 10px}.hal-body.open{display:block}
+.std-block{border-right:3px solid var(--teal);background:#FAFBFB;border-radius:8px;padding:10px 12px;margin-top:8px}
+.std-name{font-size:13px;font-weight:800;color:#1F2937;margin-bottom:7px}
+.res-row{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:7px 9px;background:#fff;border-radius:8px;margin-bottom:6px;border:1px solid #EEF1F1}
+.res-info{flex:1;min-width:0}
+.res-lv{font-size:12px;font-weight:700;color:#374151}
+.res-meta{font-size:10px;color:var(--gray);margin-top:3px;display:flex;flex-wrap:wrap;gap:6px}
+.res-right{display:flex;align-items:center;gap:6px;flex-shrink:0}
+.res-grade{font-size:14px;font-weight:900;min-width:38px;text-align:center}
+.res-grade.pass{color:var(--green)}.res-grade.fail{color:var(--red)}
+.icon-btn{width:30px;height:30px;border:none;border-radius:8px;background:var(--gray-light);cursor:pointer;font-size:13px;display:flex;align-items:center;justify-content:center}
+.icon-btn:active{background:#E5E7EB}
 .empty{text-align:center;padding:40px 20px;color:var(--gray)}
-.empty .empty-icon{font-size:48px;margin-bottom:12px;opacity:.5}
-.empty p{font-size:13px}
-.loading{position:fixed;inset:0;background:rgba(255,255,255,.92);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:1000}
+.empty .empty-icon{font-size:46px;margin-bottom:10px;opacity:.5}
+/* ==== إدارة الطلاب ==== */
+.std-item{display:flex;justify-content:space-between;align-items:center;padding:10px 12px;background:#fff;border-radius:10px;margin-bottom:7px;box-shadow:var(--shadow);font-size:13px;font-weight:600;gap:8px}
+.std-item span{flex:1;min-width:0}
+/* ==== عام ==== */
+.loading{position:fixed;inset:0;background:rgba(255,255,255,.92);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:1500}
 .loading.hidden{display:none}
-.spinner{width:40px;height:40px;border:4px solid #E5E7EB;border-top-color:var(--teal);border-radius:50%;animation:spin .8s linear infinite}
+.spinner{width:38px;height:38px;border:4px solid #E5E7EB;border-top-color:var(--teal);border-radius:50%;animation:spin .8s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
-.loading p{margin-top:14px;font-size:13px;color:var(--gray);font-weight:600}
-.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#1F2937;color:var(--white);padding:12px 24px;border-radius:12px;font-size:13px;font-weight:600;box-shadow:0 8px 24px rgba(0,0,0,.2);z-index:1001;opacity:0;transition:opacity .3s,transform .3s;pointer-events:none;max-width:90%;text-align:center}
-.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
-.attempt-info{background:var(--gold-light);border-radius:10px;padding:10px 14px;margin-bottom:14px;font-size:12px;color:#92400E;display:flex;align-items:center;gap:8px}
-.attempt-info.danger{background:#FEF2F2;color:var(--red)}
-/* Install FAB */
-.install-fab{position:fixed;bottom:16px;left:16px;z-index:900;background:var(--teal);color:#fff;border:none;border-radius:30px;padding:12px 18px;font-family:'Cairo',sans-serif;font-size:13px;font-weight:800;box-shadow:0 6px 20px rgba(26,107,106,.4);cursor:pointer;display:none;align-items:center;gap:8px;animation:fabPulse 2s infinite}
+.loading p{margin-top:12px;font-size:13px;color:var(--gray);font-weight:600}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#1F2937;color:#fff;padding:12px 22px;border-radius:12px;font-size:13px;font-weight:600;box-shadow:0 8px 24px rgba(0,0,0,.2);z-index:2500;opacity:0;transition:opacity .3s;pointer-events:none;max-width:90%;text-align:center;line-height:1.6}
+.toast.show{opacity:1}
+.modal-ov{position:fixed;inset:0;background:rgba(0,0,0,.55);display:none;align-items:center;justify-content:center;z-index:2000;padding:16px}
+.modal-ov.show{display:flex}
+.modal{background:#fff;width:100%;max-width:400px;border-radius:18px;padding:20px;max-height:88vh;overflow-y:auto}
+.modal h3{font-size:15px;font-weight:800;color:var(--teal);margin-bottom:6px}
+.modal .sub{font-size:12px;color:var(--gray);margin-bottom:14px;line-height:1.6}
+.modal-actions{display:flex;gap:8px;margin-top:14px}
+.modal-actions .btn{margin:0}
+.install-fab{position:fixed;bottom:14px;left:14px;z-index:900;background:var(--teal);color:#fff;border:none;border-radius:30px;padding:11px 17px;font-family:'Cairo',sans-serif;font-size:13px;font-weight:800;box-shadow:0 6px 20px rgba(26,107,106,.4);cursor:pointer;display:none;align-items:center;gap:8px}
 .install-fab.show{display:flex}
-@keyframes fabPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
-/* Install modal (for iOS instructions) */
-.install-overlay{position:fixed;inset:0;background:rgba(0,0,0,.55);display:none;align-items:flex-end;justify-content:center;z-index:2000}
-.install-overlay.show{display:flex}
-@keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
-.install-modal{background:var(--white);width:100%;max-width:480px;border-radius:24px 24px 0 0;padding:24px 20px 28px;animation:slideUp .35s cubic-bezier(.2,.9,.3,1.2);box-shadow:0 -8px 32px rgba(0,0,0,.2);max-height:90vh;overflow-y:auto}
-.install-header{display:flex;flex-direction:column;align-items:center;text-align:center;margin-bottom:18px}
-.install-icon{width:72px;height:72px;border-radius:18px;background:linear-gradient(135deg,var(--teal),var(--teal-dark));display:flex;align-items:center;justify-content:center;padding:8px;box-shadow:0 8px 20px rgba(26,107,106,.35);margin-bottom:14px}
-.install-icon img{width:100%;height:100%;object-fit:contain;border-radius:12px;background:#fff;padding:4px}
-.install-title{font-size:17px;font-weight:800;color:#1F2937;margin-bottom:4px}
-.install-subtitle{font-size:12px;color:var(--gray)}
-.install-steps{background:var(--teal-light);border-radius:14px;padding:14px;margin-bottom:16px}
-.install-step{display:flex;align-items:flex-start;gap:10px;padding:8px 0;font-size:13px;color:var(--teal-dark);line-height:1.6}
-.install-step-num{flex-shrink:0;width:22px;height:22px;border-radius:50%;background:var(--teal);color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;margin-top:2px}
-.install-step b{font-weight:700}
-.install-visual{display:inline-flex;align-items:center;padding:2px 8px;background:#fff;border-radius:6px;font-weight:700;border:1px solid #D1D5DB;font-size:12px;margin:0 2px}
-.install-actions{display:flex;gap:8px}
-.install-btn{flex:1;padding:12px;border:none;border-radius:12px;font-family:'Cairo',sans-serif;font-size:13px;font-weight:800;cursor:pointer}
-.install-btn-primary{background:var(--teal);color:#fff}
-.install-btn-secondary{background:var(--gray-light);color:var(--gray)}
+.install-steps{background:var(--teal-light);border-radius:12px;padding:12px;margin-bottom:14px}
+.install-step{display:flex;align-items:flex-start;gap:9px;padding:7px 0;font-size:12.5px;color:var(--teal-dark);line-height:1.6}
+.install-step-num{flex-shrink:0;width:21px;height:21px;border-radius:50%;background:var(--teal);color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;margin-top:2px}
+.offline-bar{position:fixed;top:0;left:0;right:0;background:#B45309;color:#fff;font-size:11px;font-weight:700;text-align:center;padding:5px;z-index:3000;display:none}
+.offline-bar.show{display:block}
 </style>
 </head>
 <body>
 
+<div class="offline-bar" id="offlineBar">لا يوجد اتصال بالإنترنت — يتم العرض من النسخة المحفوظة</div>
 <div class="loading" id="loader"><div class="spinner"></div><p>جاري تحميل البيانات...</p></div>
 <div class="toast" id="toast"></div>
 
@@ -127,509 +129,761 @@ body{font-family:'Cairo',sans-serif;background:#F0F4F3;color:#1F2937;min-height:
     <img src="data:image/png;base64,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" alt="تعلم">
     <img src="himam_icon_192.png" alt="همم">
   </div>
-  <h1>حاسبة اختبارات همم</h1>
+  <h1>اختبارات همم</h1>
   <p>برنامج همم لحفظ القرآن الكريم وإتقانه</p>
 </header>
 
 <div class="tabs">
-  <button class="tab active" onclick="showPage('test')">📝 اختبار جديد</button>
-  <button class="tab" onclick="showPage('history')">📋 السجل</button>
+  <button class="tab active" data-pg="test" onclick="showPage('test',this)">📝 اختبار</button>
+  <button class="tab" data-pg="history" onclick="showPage('history',this)">📋 السجل</button>
+  <button class="tab" data-pg="manage" onclick="showPage('manage',this)">👥 الطلاب</button>
 </div>
 
 <div class="content">
-  <div class="page active" id="page-test">
-    <div class="card">
-      <div class="card-title"><span class="icon">👤</span> بيانات الطالب</div>
-      <div class="field"><label>الفرع</label>
-        <select id="selBranch" onchange="onBranchChange()"><option value="">اختر الفرع</option></select>
-      </div>
-      <div class="field"><label>الحلقة</label>
-        <select id="selHalaqah" onchange="onHalaqahChange()" disabled><option value="">اختر الحلقة</option></select>
-      </div>
-      <div class="field"><label>اسم الطالب</label>
-        <select id="selStudent" onchange="onStudentChange()" disabled><option value="">اختر الطالب</option></select>
-      </div>
-    </div>
 
-    <div class="card">
-      <div class="card-title"><span class="icon">📖</span> المستوى</div>
-      <div class="field"><label>مستوى الاختبار</label>
-        <select id="selLevel" onchange="onLevelChange()" disabled><option value="">اختر المستوى</option></select>
-      </div>
-      <div id="levelInfoBox" style="display:none"></div>
-      <div id="attemptBox" style="display:none"></div>
-    </div>
-
-    <div class="card" id="gradingCard" style="display:none">
-      <div class="card-title"><span class="icon">✏️</span> التقييم</div>
-      <div class="counter-row">
-        <div class="counter-label">التنبيهات<small id="warningDeductLabel">خصم: 0</small></div>
-        <div class="counter-controls">
-          <button class="counter-btn minus" onclick="changeCounter('warnings',-1)">−</button>
-          <span class="counter-val" id="warningsVal">0</span>
-          <button class="counter-btn" onclick="changeCounter('warnings',1)">+</button>
-        </div>
-      </div>
-      <div class="counter-row">
-        <div class="counter-label">الأخطاء<small id="errorDeductLabel">خصم: 0</small></div>
-        <div class="counter-controls">
-          <button class="counter-btn minus" onclick="changeCounter('errors',-1)">−</button>
-          <span class="counter-val" id="errorsVal">0</span>
-          <button class="counter-btn" onclick="changeCounter('errors',1)">+</button>
-        </div>
-      </div>
-      <div class="grade-box" id="gradeBox">
-        <div class="grade-number" id="gradeNumber">100</div>
-        <div class="grade-label">الدرجة من 100</div>
-        <span class="grade-result pass" id="gradeResult">ناجح</span>
-      </div>
-      <button class="btn btn-primary" id="btnSave" onclick="saveResult()">💾 حفظ النتيجة</button>
-      <button class="btn btn-whatsapp" id="btnWhatsapp" onclick="sendWhatsapp()">📱 إرسال عبر واتساب</button>
-      <button class="btn btn-outline" onclick="resetForm()">🔄 اختبار جديد</button>
-    </div>
+<!-- ═══════ صفحة الاختبار ═══════ -->
+<div class="page active" id="page-test">
+  <div class="card">
+    <div class="card-title">👤 بيانات الطالب</div>
+    <div class="field"><label>الفرع</label>
+      <select id="selBranch" onchange="onBranchChange()"><option value="">اختر الفرع</option></select></div>
+    <div class="field"><label>الحلقة</label>
+      <select id="selHalaqah" onchange="onHalaqahChange()" disabled><option value="">اختر الحلقة</option></select></div>
+    <div class="field"><label>اسم الطالب</label>
+      <select id="selStudent" onchange="onStudentChange()" disabled><option value="">اختر الطالب</option></select></div>
   </div>
 
-  <div class="page" id="page-history">
-    <div class="card" style="padding:12px">
-      <div class="field" style="margin:0">
-        <select id="selHistoryFilter" onchange="filterHistory()"><option value="">جميع الطلاب</option></select>
-      </div>
+  <div class="card">
+    <div class="card-title">📖 المستوى</div>
+    <div class="field"><label>مستوى الاختبار</label>
+      <select id="selLevel" onchange="onLevelChange()" disabled><option value="">اختر المستوى</option></select></div>
+    <div id="levelInfoBox" style="display:none"></div>
+    <div id="attemptBox" style="display:none"></div>
+  </div>
+
+  <div class="card" id="gradingCard" style="display:none">
+    <div class="card-title">✏️ التقييم</div>
+    <div class="counter-row">
+      <div class="counter-label">التنبيهات<small id="wLbl">خصم: 0</small></div>
+      <div class="counter-controls">
+        <button class="counter-btn minus" onclick="chg('warnings',-1)">−</button>
+        <span class="counter-val" id="warningsVal">0</span>
+        <button class="counter-btn" onclick="chg('warnings',1)">+</button></div>
     </div>
-    <div id="historyList"></div>
+    <div class="counter-row">
+      <div class="counter-label">الأخطاء<small id="eLbl">خصم: 0</small></div>
+      <div class="counter-controls">
+        <button class="counter-btn minus" onclick="chg('errors',-1)">−</button>
+        <span class="counter-val" id="errorsVal">0</span>
+        <button class="counter-btn" onclick="chg('errors',1)">+</button></div>
+    </div>
+    <div class="grade-box" id="gradeBox">
+      <div class="grade-number" id="gradeNumber">100</div>
+      <div class="grade-label">الدرجة من 100</div>
+      <span class="grade-result pass" id="gradeResult">مجتاز</span>
+    </div>
+    <button class="btn btn-primary" id="btnSave" onclick="saveResult()">💾 حفظ النتيجة</button>
+    <button class="btn btn-whatsapp" onclick="sendWhatsapp()">📱 إرسال عبر واتساب</button>
+    <button class="btn btn-outline" onclick="resetForm()">🔄 اختبار جديد</button>
   </div>
 </div>
 
-<!-- Install button (Android) -->
+<!-- ═══════ صفحة السجل ═══════ -->
+<div class="page" id="page-history">
+  <div class="card" style="padding:12px;display:flex;gap:8px;align-items:center">
+    <input id="histSearch" placeholder="🔎 بحث باسم الطالب..." oninput="renderHistory()"
+      style="flex:1;padding:10px 12px;border:2px solid #E5E7EB;border-radius:10px;font-family:'Cairo';font-size:13px;outline:none">
+    <button class="btn btn-outline btn-sm" onclick="loadHistory(true)" style="border-width:2px">↻</button>
+  </div>
+  <div id="historyList"></div>
+</div>
+
+<!-- ═══════ صفحة إدارة الطلاب ═══════ -->
+<div class="page" id="page-manage">
+  <div class="card">
+    <div class="card-title">👥 إدارة طلاب الحلقة</div>
+    <div class="field"><label>الفرع</label>
+      <select id="mBranch" onchange="mOnBranch()"><option value="">اختر الفرع</option></select></div>
+    <div class="field"><label>الحلقة</label>
+      <select id="mHalaqah" onchange="mRender()" disabled><option value="">اختر الحلقة</option></select></div>
+  </div>
+  <div class="card" id="mAddCard" style="display:none">
+    <div class="card-title">➕ إضافة طالب</div>
+    <div class="field"><label>اسم الطالب الجديد</label>
+      <input id="mNewName" placeholder="اكتب الاسم الرباعي"></div>
+    <button class="btn btn-primary" onclick="mAdd()">إضافة إلى الحلقة</button>
+  </div>
+  <div id="mList"></div>
+</div>
+
+</div>
+
 <button class="install-fab" id="installFab" onclick="triggerInstall()">📥 تثبيت التطبيق</button>
 
-<!-- Install modal (iOS instructions) -->
-<div class="install-overlay" id="installOverlay">
-  <div class="install-modal">
-    <div class="install-header">
-      <div class="install-icon"><img src="himam_icon_192.png" alt="همم"></div>
-      <div class="install-title">أضف حاسبة همم لشاشتك الرئيسية</div>
-      <div class="install-subtitle">للوصول السريع كأي تطبيق على جوالك</div>
+<!-- نافذة تعديل نتيجة -->
+<div class="modal-ov" id="editModal">
+  <div class="modal">
+    <h3>تعديل النتيجة</h3>
+    <div class="sub" id="editSub"></div>
+    <div class="counter-row">
+      <div class="counter-label">التنبيهات<small id="ewLbl"></small></div>
+      <div class="counter-controls">
+        <button class="counter-btn minus" onclick="eChg('warnings',-1)">−</button>
+        <span class="counter-val" id="eWarnings">0</span>
+        <button class="counter-btn" onclick="eChg('warnings',1)">+</button></div>
+    </div>
+    <div class="counter-row">
+      <div class="counter-label">الأخطاء<small id="eeLbl"></small></div>
+      <div class="counter-controls">
+        <button class="counter-btn minus" onclick="eChg('errors',-1)">−</button>
+        <span class="counter-val" id="eErrors">0</span>
+        <button class="counter-btn" onclick="eChg('errors',1)">+</button></div>
+    </div>
+    <div class="grade-box" id="eGradeBox" style="margin:12px 0">
+      <div class="grade-number" id="eGradeNum">100</div>
+      <span class="grade-result pass" id="eGradeRes">مجتاز</span>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-outline" onclick="closeModal('editModal')">إلغاء</button>
+      <button class="btn btn-primary" onclick="saveEdit()">حفظ التعديل</button>
+    </div>
+  </div>
+</div>
+
+<!-- نافذة تأكيد -->
+<div class="modal-ov" id="confirmModal">
+  <div class="modal">
+    <h3 id="cfTitle">تأكيد</h3>
+    <div class="sub" id="cfMsg"></div>
+    <div class="modal-actions">
+      <button class="btn btn-outline" onclick="closeModal('confirmModal')">إلغاء</button>
+      <button class="btn btn-danger" id="cfOk">تأكيد</button>
+    </div>
+  </div>
+</div>
+
+<!-- نافذة تثبيت iOS -->
+<div class="modal-ov" id="installOverlay">
+  <div class="modal">
+    <div style="text-align:center;margin-bottom:14px">
+      <img src="himam_icon_192.png" style="width:64px;height:64px;border-radius:16px;margin-bottom:10px">
+      <h3>أضف اختبارات همم لشاشتك</h3>
+      <div class="sub">للوصول السريع كأي تطبيق على جوالك</div>
     </div>
     <div class="install-steps">
-      <div class="install-step"><div class="install-step-num">1</div>
-        <div>اضغط على أيقونة المشاركة <span class="install-visual">⬆︎</span> أسفل Safari</div></div>
-      <div class="install-step"><div class="install-step-num">2</div>
-        <div>مرر واختر <b>«إضافة إلى الشاشة الرئيسية»</b></div></div>
-      <div class="install-step"><div class="install-step-num">3</div>
-        <div>اضغط <b>«إضافة»</b> في الأعلى</div></div>
+      <div class="install-step"><div class="install-step-num">1</div><div>اضغط أيقونة المشاركة أسفل Safari</div></div>
+      <div class="install-step"><div class="install-step-num">2</div><div>اختر <b>«إضافة إلى الشاشة الرئيسية»</b></div></div>
+      <div class="install-step"><div class="install-step-num">3</div><div>اضغط <b>«إضافة»</b> في الأعلى</div></div>
     </div>
-    <div class="install-actions">
-      <button class="install-btn install-btn-secondary" onclick="dismissInstall(true)">لا تظهر مجدداً</button>
-      <button class="install-btn install-btn-primary" onclick="dismissInstall(false)">حسناً، فهمت</button>
+    <div class="modal-actions">
+      <button class="btn btn-outline" onclick="dismissInstall(true)">لا تظهر مجدداً</button>
+      <button class="btn btn-primary" onclick="dismissInstall(false)">حسناً</button>
     </div>
   </div>
 </div>
 
 <script>
-// ═══════════════════════════════════════════════
-//  ⚠️ ضع رابط تطبيق الويب (Apps Script /exec) هنا
-// ═══════════════════════════════════════════════
+/* ═══════════════════════════════════════
+   الإعدادات
+   ═══════════════════════════════════════ */
 const API_URL = 'https://script.google.com/macros/s/AKfycbzIoconvQFu9siOX3mWfGXRMsl86kNV-9OWLqjN9WXRzIaIHOkN_u0wYFKW98IRf7bs1Q/exec';
-
-// ─── الرمز السري (يجب أن يطابق الموجود في Code.gs) ───
 const SECRET_TOKEN = 'RazHuS7DPKk85NiiaWZAJANTFXRyMCij';
+const PASS_TXT = 'مجتاز', FAIL_TXT = 'غير مجتاز';
 
 let DATA = { students:{}, evalTable:[], levels:[] };
 let STATE = { warnings:0, errors:0 };
-let currentEval = null;
-let allHistory = [];
+let currentEval = null, allHistory = [], editCtx = null, lastStatus = null;
 
-// ─── JSONP helper (GET بدون مشاكل CORS) ───
-function jsonpRequest(params){
-  return new Promise((resolve, reject) => {
-    // إضافة الرمز السري والمصدر لكل طلب
-    params.token = SECRET_TOKEN;
-    params.origin = window.location.origin;
-    const cbName = 'cb_' + Math.random().toString(36).substr(2,9);
-    const timeout = setTimeout(() => {
-      delete window[cbName];
-      if(script.parentNode) script.parentNode.removeChild(script);
-      reject(new Error('انتهت مهلة الاتصال'));
-    }, 20000);
-    window[cbName] = (data) => {
-      clearTimeout(timeout);
-      delete window[cbName];
-      if(script.parentNode) script.parentNode.removeChild(script);
-      resolve(data);
+/* ═══════════════════════════════════════
+   طبقة الاتصال — JSONP مع إعادة محاولة
+   ═══════════════════════════════════════ */
+function apiOnce(params, timeoutMs){
+  return new Promise(function(resolve, reject){
+    const cb = 'cb_' + Date.now().toString(36) + Math.random().toString(36).substr(2,6);
+    let done = false;
+    const s = document.createElement('script');
+    const timer = setTimeout(function(){
+      if(done) return; done = true;
+      cleanup(); reject(new Error('انتهت مهلة الاتصال'));
+    }, timeoutMs || 25000);
+    function cleanup(){
+      try{ delete window[cb]; }catch(e){ window[cb] = undefined; }
+      if(s.parentNode) s.parentNode.removeChild(s);
+      clearTimeout(timer);
+    }
+    window[cb] = function(data){
+      if(done) return; done = true;
+      cleanup(); resolve(data);
     };
-    const qs = Object.keys(params).map(k => k+'='+encodeURIComponent(params[k])).join('&');
-    const script = document.createElement('script');
-    script.src = API_URL + '?' + qs + '&callback=' + cbName;
-    script.onerror = () => {
-      clearTimeout(timeout);
-      delete window[cbName];
-      reject(new Error('فشل الاتصال بقاعدة البيانات'));
+    const q = Object.keys(params).map(function(k){
+      return k + '=' + encodeURIComponent(params[k] === undefined ? '' : params[k]);
+    }).join('&');
+    s.src = API_URL + '?' + q + '&callback=' + cb + '&_t=' + Date.now();
+    s.onerror = function(){
+      if(done) return; done = true;
+      cleanup(); reject(new Error('تعذّر الاتصال'));
     };
-    document.body.appendChild(script);
+    document.body.appendChild(s);
   });
 }
 
-// ─── Init ───
-window.addEventListener('DOMContentLoaded', () => {
-  // محاولة تحميل البيانات من ذاكرة المتصفح أولاً (لعرض فوري)
-  let usedCache = false;
-  try {
-    const cached = localStorage.getItem('himam_data_cache');
-    const cachedTime = parseInt(localStorage.getItem('himam_data_time') || '0');
-    // صلاحية الكاش المحلي: 12 ساعة
-    if (cached && (Date.now() - cachedTime < 12*60*60*1000)) {
-      DATA = JSON.parse(cached);
-      populateBranches();
-      populateLevels();
-      document.getElementById('loader').classList.add('hidden');
-      usedCache = true;
+async function api(params, opts){
+  opts = opts || {};
+  params = Object.assign({}, params);
+  params.token = SECRET_TOKEN;
+  params.origin = window.location.origin;
+  const tries = opts.tries || 3;
+  let lastErr;
+  for(let i = 0; i < tries; i++){
+    try{
+      const r = await apiOnce(params, opts.timeout);
+      setOffline(false);
+      return r;
+    }catch(e){
+      lastErr = e;
+      if(i < tries - 1) await new Promise(function(r){ setTimeout(r, 900 * (i + 1)); });
     }
-  } catch(e){}
-
-  // جلب البيانات المحدّثة من الخادم (في الخلفية إن كان الكاش مستخدماً)
-  jsonpRequest({ action:'getAllData' })
-    .then(res => {
-      if(res.success){
-        DATA = res.data;
-        populateBranches();
-        populateLevels();
-        // حفظ في ذاكرة المتصفح
-        try {
-          localStorage.setItem('himam_data_cache', JSON.stringify(res.data));
-          localStorage.setItem('himam_data_time', Date.now().toString());
-        } catch(e){}
-      } else if(!usedCache) {
-        toast('خطأ: ' + (res.message||'فشل تحميل البيانات'));
-      }
-      document.getElementById('loader').classList.add('hidden');
-    })
-    .catch(err => {
-      if(!usedCache){
-        toast('خطأ في الاتصال: ' + err.message);
-        document.getElementById('loader').classList.add('hidden');
-      }
-    });
-});
-
-// ─── Navigation ───
-function showPage(id){
-  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
-  document.getElementById('page-'+id).classList.add('active');
-  event.target.classList.add('active');
-  if(id==='history') loadHistory();
+  }
+  setOffline(true);
+  throw lastErr;
 }
 
-// ─── Dropdowns ───
-function populateBranches(){
-  const sel=document.getElementById('selBranch');
-  sel.innerHTML='<option value="">اختر الفرع</option>';
-  Object.keys(DATA.students).forEach(b=>sel.innerHTML+=`<option value="${b}">${b}</option>`);
+function setOffline(v){
+  document.getElementById('offlineBar').classList.toggle('show', !!v);
+}
+
+/* ═══════════════════════════════════════
+   التهيئة
+   ═══════════════════════════════════════ */
+window.addEventListener('DOMContentLoaded', function(){
+  let cached = false;
+  try{
+    const c = localStorage.getItem('himam_v2_data');
+    if(c){ DATA = JSON.parse(c); fillBranches(); fillLevels(); mFillBranches(); cached = true;
+           document.getElementById('loader').classList.add('hidden'); }
+  }catch(e){}
+  refreshData(!cached);
+});
+
+async function refreshData(showLoader){
+  if(showLoader) document.getElementById('loader').classList.remove('hidden');
+  try{
+    const r = await api({ action:'getAllData' });
+    if(r && r.success){
+      DATA = r.data;
+      const bs = document.getElementById('selBranch').value;
+      const hs = document.getElementById('selHalaqah').value;
+      const ss = document.getElementById('selStudent').value;
+      fillBranches(); fillLevels(); mFillBranches();
+      if(bs){ document.getElementById('selBranch').value = bs; onBranchChange();
+        if(hs){ document.getElementById('selHalaqah').value = hs; onHalaqahChange();
+          if(ss) document.getElementById('selStudent').value = ss; } }
+      try{ localStorage.setItem('himam_v2_data', JSON.stringify(r.data)); }catch(e){}
+    }
+  }catch(e){
+    if(showLoader) toast('تعذّر تحديث البيانات — تحقق من الاتصال');
+  }
+  document.getElementById('loader').classList.add('hidden');
+}
+
+// تحديث تلقائي عند العودة للتطبيق (يعالج انقطاع القوائم بعد الخمول)
+document.addEventListener('visibilitychange', function(){
+  if(document.visibilityState === 'visible') refreshData(false);
+});
+window.addEventListener('online', function(){ setOffline(false); refreshData(false); });
+window.addEventListener('offline', function(){ setOffline(true); });
+
+/* ═══════════════════════════════════════
+   التنقل
+   ═══════════════════════════════════════ */
+function showPage(id, el){
+  document.querySelectorAll('.page').forEach(function(p){ p.classList.remove('active'); });
+  document.querySelectorAll('.tab').forEach(function(t){ t.classList.remove('active'); });
+  document.getElementById('page-' + id).classList.add('active');
+  if(el) el.classList.add('active');
+  window.scrollTo(0,0);
+  if(id === 'history' && allHistory.length === 0) loadHistory();
+}
+
+/* ═══════════════════════════════════════
+   القوائم
+   ═══════════════════════════════════════ */
+function fillBranches(){
+  const s = document.getElementById('selBranch');
+  s.innerHTML = '<option value="">اختر الفرع</option>';
+  Object.keys(DATA.students || {}).forEach(function(b){
+    s.innerHTML += '<option value="' + b + '">' + b + '</option>'; });
 }
 function onBranchChange(){
-  const branch=document.getElementById('selBranch').value;
-  const selH=document.getElementById('selHalaqah'), selS=document.getElementById('selStudent');
-  selH.innerHTML='<option value="">اختر الحلقة</option>';
-  selS.innerHTML='<option value="">اختر الطالب</option>';
-  selH.disabled=!branch; selS.disabled=true;
-  if(branch&&DATA.students[branch]) Object.keys(DATA.students[branch]).forEach(h=>selH.innerHTML+=`<option value="${h}">${h}</option>`);
-  checkReady();
+  const b = document.getElementById('selBranch').value;
+  const h = document.getElementById('selHalaqah'), st = document.getElementById('selStudent');
+  h.innerHTML = '<option value="">اختر الحلقة</option>';
+  st.innerHTML = '<option value="">اختر الطالب</option>';
+  h.disabled = !b; st.disabled = true;
+  if(b && DATA.students[b]) Object.keys(DATA.students[b]).forEach(function(x){
+    h.innerHTML += '<option value="' + x + '">' + x + '</option>'; });
+  ready();
 }
 function onHalaqahChange(){
-  const branch=document.getElementById('selBranch').value, halaqah=document.getElementById('selHalaqah').value;
-  const selS=document.getElementById('selStudent');
-  selS.innerHTML='<option value="">اختر الطالب</option>';
-  selS.disabled=!halaqah;
-  if(branch&&halaqah&&DATA.students[branch]&&DATA.students[branch][halaqah])
-    DATA.students[branch][halaqah].forEach(s=>selS.innerHTML+=`<option value="${s}">${s}</option>`);
-  checkReady();
+  const b = document.getElementById('selBranch').value, h = document.getElementById('selHalaqah').value;
+  const st = document.getElementById('selStudent');
+  st.innerHTML = '<option value="">اختر الطالب</option>';
+  st.disabled = !h;
+  if(b && h && DATA.students[b] && DATA.students[b][h])
+    DATA.students[b][h].forEach(function(x){ st.innerHTML += '<option value="' + x + '">' + x + '</option>'; });
+  ready();
 }
-function onStudentChange(){ checkReady(); checkAttempts(); }
-function populateLevels(){
-  const sel=document.getElementById('selLevel');
-  sel.innerHTML='<option value="">اختر المستوى</option>';
-  DATA.levels.forEach(l=>sel.innerHTML+=`<option value="${l.level}">${l.level}</option>`);
+function onStudentChange(){ ready(); checkStatus(); }
+function fillLevels(){
+  const s = document.getElementById('selLevel');
+  s.innerHTML = '<option value="">اختر المستوى</option>';
+  (DATA.levels || []).forEach(function(l){
+    s.innerHTML += '<option value="' + l.level + '">' + l.level + '</option>'; });
 }
 function onLevelChange(){
-  const level=document.getElementById('selLevel').value;
-  const infoBox=document.getElementById('levelInfoBox');
-  if(level){
-    const lData=DATA.levels.find(l=>l.level===level);
-    const eData=DATA.evalTable.find(e=>e.level===level);
-    currentEval=eData;
-    if(lData&&eData){
-      infoBox.style.display='';
-      infoBox.innerHTML=`<div class="level-info"><span class="li-icon">📖</span><div class="li-details"><strong>${lData.level}</strong> — ${lData.range}<br>عدد الأسئلة: ${eData.questions} | وزن السؤال: ${(+eData.weight).toFixed(4)}</div></div>`;
-      document.getElementById('warningDeductLabel').textContent='خصم: '+(+eData.warningDeduction).toFixed(4);
-      document.getElementById('errorDeductLabel').textContent='خصم: '+(+eData.errorDeduction).toFixed(4);
+  const lv = document.getElementById('selLevel').value;
+  const box = document.getElementById('levelInfoBox');
+  if(lv){
+    const L = (DATA.levels || []).find(function(x){ return x.level === lv; });
+    const E = (DATA.evalTable || []).find(function(x){ return x.level === lv; });
+    currentEval = E;
+    if(L && E){
+      box.style.display = '';
+      box.innerHTML = '<div class="level-info"><span>📖</span><div class="li-details"><b>' + L.level +
+        '</b><br>المقدار: ' + L.range + '<br>عدد الأسئلة: ' + E.questions + '</div></div>';
+      document.getElementById('wLbl').textContent = 'خصم: ' + (+E.warningDeduction).toFixed(4);
+      document.getElementById('eLbl').textContent = 'خصم: ' + (+E.errorDeduction).toFixed(4);
     }
-  } else { infoBox.style.display='none'; currentEval=null; }
-  checkReady(); checkAttempts();
+  } else { box.style.display = 'none'; currentEval = null; }
+  ready(); checkStatus();
 }
 
-// ─── Attempts ───
-function checkAttempts(){
-  const student=document.getElementById('selStudent').value, level=document.getElementById('selLevel').value;
-  const box=document.getElementById('attemptBox');
-  if(!student||!level){ box.style.display='none'; return; }
-  jsonpRequest({ action:'getAttemptStatus', studentName:student, level:level })
-    .then(res=>{
-      const count=res.count||0;
-      const status=res.status||'new';
-
-      if(status==='new'){
-        // لا محاولات سابقة → لا نعرض شيئاً
-        box.style.display='none';
-        return;
-      }
-
-      if(status==='passed'){
-        // نجح سابقاً → لا إعادة
-        box.style.display='';
-        box.innerHTML=`<div class="attempt-info" style="background:#ECFDF5;color:#065F46">✅ الطالب نجح سابقاً في هذا المستوى (المحاولة ${count}) — لا حاجة للإعادة</div>`;
-        document.getElementById('gradingCard').style.display='none';
-        return;
-      }
-
-      if(status==='excluded'){
-        // 3 محاولات دون نجاح → مستبعد
-        box.style.display='';
-        box.innerHTML=`<div class="attempt-info danger">⛔ استنفد الطالب 3 محاولات دون نجاح — <strong>يُستبعد من هذا المستوى</strong></div>`;
-        document.getElementById('gradingCard').style.display='none';
-        return;
-      }
-
-      // status === 'retry' : لم ينجح ولديه محاولات متبقية
-      const remaining=3-count;
-      const cls=remaining<=1?'attempt-info danger':'attempt-info';
-      box.style.display='';
-      box.innerHTML=`<div class="${cls}">🔄 محاولة إعادة — المحاولات السابقة: ${count} من 3 | المتبقي: ${remaining}<br>هذه ستكون <strong>المحاولة رقم ${count+1}</strong></div>`;
-    }).catch(()=>{});
+/* ═══════════════════════════════════════
+   حالة المحاولات
+   ═══════════════════════════════════════ */
+async function checkStatus(){
+  const st = document.getElementById('selStudent').value;
+  const lv = document.getElementById('selLevel').value;
+  const box = document.getElementById('attemptBox');
+  lastStatus = null;
+  if(!st || !lv){ box.style.display = 'none'; return; }
+  try{
+    const r = await api({ action:'getAttemptStatus', studentName:st, level:lv }, { tries:2 });
+    if(!r || !r.success) return;
+    lastStatus = r;
+    const n = r.count || 0;
+    if(r.status === 'new'){ box.style.display = 'none'; return; }
+    box.style.display = '';
+    if(r.status === 'passed'){
+      box.innerHTML = '<div class="notice ok"><span>✅</span><div>' +
+        '<b>الطالب اجتاز هذا المستوى سابقاً</b> بدرجة <b>' + fmtG(r.lastGrade) + '</b>.<br>' +
+        'يمكنك إعادة الرصد الآن، وسيتم <b>تحديث النتيجة السابقة</b> في قاعدة البيانات دون إضافة سجل جديد.</div></div>';
+      document.getElementById('gradingCard').style.display = currentEval ? '' : 'none';
+    } else if(r.status === 'excluded'){
+      box.innerHTML = '<div class="notice danger"><span>⛔</span><div>استنفد الطالب <b>3 محاولات</b> دون اجتياز — <b>يُستبعد من هذا المستوى</b></div></div>';
+      document.getElementById('gradingCard').style.display = 'none';
+    } else {
+      box.innerHTML = '<div class="notice warn"><span>🔄</span><div>محاولة إعادة — السابقة: <b>' + n +
+        '</b> من 3 | المتبقي: <b>' + (3 - n) + '</b><br>هذه هي <b>المحاولة رقم ' + (n + 1) + '</b></div></div>';
+    }
+  }catch(e){}
 }
 
-// ─── Ready ───
-function checkReady(){
-  const student=document.getElementById('selStudent').value, level=document.getElementById('selLevel').value;
-  const card=document.getElementById('gradingCard');
-  document.getElementById('selLevel').disabled=!student;
-  if(student&&level&&currentEval){
-    card.style.display='';
-    STATE={warnings:0,errors:0};
-    document.getElementById('warningsVal').textContent='0';
-    document.getElementById('errorsVal').textContent='0';
-    calculateGrade();
-  } else card.style.display='none';
+/* ═══════════════════════════════════════
+   الحساب
+   ═══════════════════════════════════════ */
+function ready(){
+  const st = document.getElementById('selStudent').value, lv = document.getElementById('selLevel').value;
+  document.getElementById('selLevel').disabled = !st;
+  const c = document.getElementById('gradingCard');
+  if(st && lv && currentEval){
+    c.style.display = '';
+    STATE = { warnings:0, errors:0 };
+    document.getElementById('warningsVal').textContent = '0';
+    document.getElementById('errorsVal').textContent = '0';
+    calc();
+  } else c.style.display = 'none';
 }
-
-// ─── Counter & Grade ───
-function changeCounter(type,delta){
-  STATE[type]=Math.max(0,STATE[type]+delta);
-  document.getElementById(type+'Val').textContent=STATE[type];
-  calculateGrade();
+function chg(t, d){
+  STATE[t] = Math.max(0, STATE[t] + d);
+  document.getElementById(t + 'Val').textContent = STATE[t];
+  calc();
 }
-function getGrade(){
-  if(!currentEval) return 0;
-  let g=100-(STATE.warnings*(+currentEval.warningDeduction))-(STATE.errors*(+currentEval.errorDeduction));
-  g=Math.max(0,g);
-  g=Math.round(g*100)/100;
-  g=Math.round(g*2)/2;
+function gradeOf(w, e, ev){
+  if(!ev) return 0;
+  let g = 100 - (w * (+ev.warningDeduction)) - (e * (+ev.errorDeduction));
+  g = Math.max(0, g);
+  g = Math.round(g * 100) / 100;
+  g = Math.round(g * 2) / 2;
   return g;
 }
-function calculateGrade(){
+function fmtG(g){ const n = Number(g); if(isNaN(n)) return g; return n % 1 === 0 ? String(n) : n.toFixed(1); }
+function calc(){
   if(!currentEval) return;
-  const g=getGrade(), pass=g>=90;
-  const box=document.getElementById('gradeBox'), num=document.getElementById('gradeNumber'), res=document.getElementById('gradeResult');
-  box.className='grade-box '+(pass?'pass':'fail');
-  num.className='grade-number '+(pass?'pass':'fail');
-  num.textContent=g.toFixed(g%1===0?0:1);
-  res.className='grade-result '+(pass?'pass':'fail');
-  res.textContent=pass?'ناجح ✓':'لم يجتز ✗';
+  const g = gradeOf(STATE.warnings, STATE.errors, currentEval), p = g >= 90;
+  document.getElementById('gradeBox').className = 'grade-box ' + (p ? 'pass' : 'fail');
+  const n = document.getElementById('gradeNumber');
+  n.className = 'grade-number ' + (p ? 'pass' : 'fail');
+  n.textContent = fmtG(g);
+  const r = document.getElementById('gradeResult');
+  r.className = 'grade-result ' + (p ? 'pass' : 'fail');
+  r.textContent = p ? PASS_TXT : FAIL_TXT;
 }
 
-// ─── Save (POST via no-cors) ───
-function saveResult(){
-  const grade=getGrade();
-  const testData={
-    branch:document.getElementById('selBranch').value,
-    halaqah:document.getElementById('selHalaqah').value,
-    studentName:document.getElementById('selStudent').value,
-    level:document.getElementById('selLevel').value,
-    warnings:STATE.warnings, errors:STATE.errors,
-    grade:grade, result:grade>=90?'ناجح':'لم يجتز'
+/* ═══════════════════════════════════════
+   الحفظ
+   ═══════════════════════════════════════ */
+async function saveResult(){
+  const g = gradeOf(STATE.warnings, STATE.errors, currentEval);
+  const t = {
+    branch: document.getElementById('selBranch').value,
+    halaqah: document.getElementById('selHalaqah').value,
+    studentName: document.getElementById('selStudent').value,
+    level: document.getElementById('selLevel').value,
+    warnings: STATE.warnings, errors: STATE.errors,
+    grade: g, result: g >= 90 ? PASS_TXT : FAIL_TXT
   };
-  document.getElementById('btnSave').disabled=true;
+  if(!t.studentName || !t.level){ toast('اختر الطالب والمستوى أولاً'); return; }
+
+  const btn = document.getElementById('btnSave');
+  btn.disabled = true;
   document.getElementById('loader').classList.remove('hidden');
-
-  // نتحقق أولا من حالة الطالب قبل الحفظ لعرض رسالة صحيحة
-  jsonpRequest({ action:'getAttemptStatus', studentName:testData.studentName, level:testData.level })
-    .then(res=>{
-      const count=res.count||0;
-      const status=res.status||'new';
-
-      if(status==='passed'){
-        document.getElementById('loader').classList.add('hidden');
-        toast('✅ الطالب نجح سابقاً في هذا المستوى، لا حاجة للإعادة');
-        document.getElementById('btnSave').disabled=false;
-        return null;
-      }
-      if(status==='excluded'){
-        document.getElementById('loader').classList.add('hidden');
-        toast('⛔ استنفد الطالب 3 محاولات دون نجاح ويُستبعد من هذا المستوى');
-        document.getElementById('btnSave').disabled=false;
-        return null;
-      }
-
-      // الحفظ عبر POST
-      return fetch(API_URL, {
-        method:'POST',
-        mode:'no-cors',
-        headers:{'Content-Type':'text/plain;charset=utf-8'},
-        body:JSON.stringify({ action:'saveTestResult', token:SECRET_TOKEN, origin:window.location.origin, testData:testData })
-      }).then(()=>{
-        document.getElementById('loader').classList.add('hidden');
-        const passed = testData.result === 'ناجح';
-        if(passed){
-          toast('✅ تم حفظ النتيجة — الطالب ناجح (المحاولة '+(count+1)+')');
-        } else {
-          const remaining = 3-(count+1);
-          if(remaining>0){
-            toast('📝 تم الحفظ — لم يجتز (المحاولة '+(count+1)+') | متبقٍ '+remaining+' محاولة');
-          } else {
-            toast('⛔ تم الحفظ — لم يجتز المحاولة الأخيرة (3/3) ويُستبعد من المستوى');
-          }
-        }
-        document.getElementById('btnSave').disabled=false;
-        checkAttempts();
-      });
-    })
-    .catch(err=>{
-      document.getElementById('loader').classList.add('hidden');
-      toast('❌ خطأ: '+err.message);
-      document.getElementById('btnSave').disabled=false;
-    });
-}
-
-// ─── WhatsApp ───
-function sendWhatsapp(){
-  const student=document.getElementById('selStudent').value, level=document.getElementById('selLevel').value;
-  const grade=getGrade(), result=grade>=90?'ناجح ✅':'لم يجتز ❌';
-  const levelData=DATA.levels.find(l=>l.level===level);
-  const range=levelData?levelData.range:'';
-  const msg=`📋 *نتيجة اختبار همم*
-━━━━━━━━━━━━━━
-👤 الطالب: *${student}*
-📖 المستوى: *${level}*
-📚 النطاق: ${range}
-━━━━━━━━━━━━━━
-⚠️ التنبيهات: ${STATE.warnings}
-❌ الأخطاء: ${STATE.errors}
-━━━━━━━━━━━━━━
-📊 الدرجة: *${grade}*
-🏆 النتيجة: *${result}*
-━━━━━━━━━━━━━━
-🕌 جمعية تعلم | برنامج همم`;
-  window.open('https://wa.me/?text='+encodeURIComponent(msg),'_blank');
-}
-
-// ─── History ───
-function loadHistory(){
-  document.getElementById('loader').classList.remove('hidden');
-  jsonpRequest({ action:'getTestHistory' })
-    .then(res=>{
-      document.getElementById('loader').classList.add('hidden');
-      allHistory=res.history||[];
-      populateHistoryFilter(allHistory);
-      renderHistory(allHistory);
-    }).catch(()=>{ document.getElementById('loader').classList.add('hidden'); toast('خطأ في تحميل السجل'); });
-}
-function populateHistoryFilter(records){
-  const sel=document.getElementById('selHistoryFilter');
-  const names=[...new Set(records.map(r=>r.studentName))];
-  sel.innerHTML='<option value="">جميع الطلاب ('+records.length+')</option>';
-  names.forEach(n=>sel.innerHTML+=`<option value="${n}">${n}</option>`);
-}
-function filterHistory(){
-  const name=document.getElementById('selHistoryFilter').value;
-  renderHistory(name?allHistory.filter(r=>r.studentName===name):allHistory);
-}
-function renderHistory(records){
-  const list=document.getElementById('historyList');
-  if(!records||records.length===0){ list.innerHTML='<div class="empty"><div class="empty-icon">📋</div><p>لا توجد اختبارات مسجلة</p></div>'; return; }
-  list.innerHTML=records.map(r=>{
-    const pass=r.result==='ناجح';
-    return `<div class="history-item ${pass?'':'fail-item'}"><div class="hi-top"><div class="hi-name">${r.studentName}</div><span class="hi-badge ${pass?'pass':'fail'}">${r.result}</span></div><div class="hi-details"><span class="hi-tag grade-tag">${r.grade}</span><span class="hi-tag">${r.level}</span><span class="hi-tag">محاولة ${r.attempt}</span><span class="hi-tag">⚠️${r.warnings} ❌${r.errors}</span><span class="hi-tag">${r.date}</span></div></div>`;
-  }).join('');
-}
-
-// ─── Reset ───
-function resetForm(){
-  document.getElementById('selBranch').value=''; onBranchChange();
-  document.getElementById('selLevel').value=''; document.getElementById('selLevel').disabled=true;
-  document.getElementById('levelInfoBox').style.display='none';
-  document.getElementById('attemptBox').style.display='none';
-  document.getElementById('gradingCard').style.display='none';
-  currentEval=null; STATE={warnings:0,errors:0};
-}
-
-// ─── Toast ───
-function toast(msg){
-  const el=document.getElementById('toast');
-  el.textContent=msg; el.classList.add('show');
-  setTimeout(()=>el.classList.remove('show'),3500);
-}
-
-// ═══════════════════════════════════════════════
-//  PWA Install
-// ═══════════════════════════════════════════════
-let deferredPrompt=null;
-
-// أندرويد/Chrome: زر التثبيت التلقائي
-window.addEventListener('beforeinstallprompt',(e)=>{
-  e.preventDefault();
-  deferredPrompt=e;
-  const isStandalone=window.matchMedia('(display-mode: standalone)').matches||window.navigator.standalone===true;
-  if(!isStandalone) document.getElementById('installFab').classList.add('show');
-});
-
-function triggerInstall(){
-  if(deferredPrompt){
-    deferredPrompt.prompt();
-    deferredPrompt.userChoice.then(()=>{
-      deferredPrompt=null;
-      document.getElementById('installFab').classList.remove('show');
-    });
-  }
-}
-
-// عند التثبيت الناجح
-window.addEventListener('appinstalled',()=>{
-  document.getElementById('installFab').classList.remove('show');
-  deferredPrompt=null;
-});
-
-// iOS Safari: عرض تعليمات يدوية (لا يدعم beforeinstallprompt)
-window.addEventListener('load',()=>{
-  const ua=navigator.userAgent;
-  const isIOS=/iphone|ipad|ipod/i.test(ua);
-  const isStandalone=window.matchMedia('(display-mode: standalone)').matches||window.navigator.standalone===true;
   try{
-    if(localStorage.getItem('himam_ios_dismissed')==='permanent') return;
-  }catch(e){}
-  if(isIOS&&!isStandalone){
-    setTimeout(()=>document.getElementById('installOverlay').classList.add('show'),2500);
+    const r = await api(Object.assign({ action:'saveTestResult' }, t), { tries:2, timeout:35000 });
+    document.getElementById('loader').classList.add('hidden');
+    if(r && r.success){
+      toast('✅ ' + r.message + (r.updated ? '' : (r.attempt ? ' (المحاولة ' + r.attempt + ')' : '')));
+      allHistory = [];
+      checkStatus();
+    } else {
+      toast('⚠️ ' + ((r && r.message) || 'تعذّر الحفظ'));
+    }
+  }catch(e){
+    document.getElementById('loader').classList.add('hidden');
+    toast('❌ تعذّر الحفظ — تحقق من الاتصال وأعد المحاولة');
   }
-});
-
-function dismissInstall(permanent){
-  document.getElementById('installOverlay').classList.remove('show');
-  if(permanent){ try{ localStorage.setItem('himam_ios_dismissed','permanent'); }catch(e){} }
+  btn.disabled = false;
 }
 
-// تسجيل Service Worker (ضروري لتثبيت PWA على أندرويد)
-if('serviceWorker' in navigator){
-  window.addEventListener('load',()=>{
-    navigator.serviceWorker.register('sw.js').catch(()=>{});
+/* ═══════════════════════════════════════
+   واتساب
+   ═══════════════════════════════════════ */
+function sendWhatsapp(){
+  const st = document.getElementById('selStudent').value, lv = document.getElementById('selLevel').value;
+  if(!st || !lv){ toast('اختر الطالب والمستوى أولاً'); return; }
+  const g = gradeOf(STATE.warnings, STATE.errors, currentEval);
+  const L = (DATA.levels || []).find(function(x){ return x.level === lv; });
+  waSend(st, lv, L ? L.range : '', STATE.warnings, STATE.errors, g);
+}
+function waSend(name, level, range, w, e, g){
+  const res = g >= 90 ? (PASS_TXT + ' ✅') : (FAIL_TXT + ' ❌');
+  const m = '📋 *نتيجة اختبار همم*\n' +
+    '━━━━━━━━━━━━━━\n' +
+    '👤 الطالب: *' + name + '*\n' +
+    '📖 المستوى: *' + level + '*\n' +
+    '📚 المقدار: ' + range + '\n' +
+    '━━━━━━━━━━━━━━\n' +
+    '⚠️ التنبيهات: ' + w + '\n' +
+    '❌ الأخطاء: ' + e + '\n' +
+    '━━━━━━━━━━━━━━\n' +
+    '📊 الدرجة: *' + fmtG(g) + '*\n' +
+    '🏆 النتيجة: *' + res + '*\n' +
+    '━━━━━━━━━━━━━━\n' +
+    '🕌 جمعية تعلم | برنامج همم';
+  window.open('https://wa.me/?text=' + encodeURIComponent(m), '_blank');
+}
+
+function resetForm(){
+  document.getElementById('selBranch').value = ''; onBranchChange();
+  document.getElementById('selLevel').value = '';
+  document.getElementById('selLevel').disabled = true;
+  document.getElementById('levelInfoBox').style.display = 'none';
+  document.getElementById('attemptBox').style.display = 'none';
+  document.getElementById('gradingCard').style.display = 'none';
+  currentEval = null; STATE = { warnings:0, errors:0 };
+  window.scrollTo(0,0);
+}
+
+/* ═══════════════════════════════════════
+   السجل — تجميع هرمي
+   ═══════════════════════════════════════ */
+async function loadHistory(force){
+  document.getElementById('loader').classList.remove('hidden');
+  try{
+    const r = await api({ action:'getTestHistory' }, { timeout:35000 });
+    allHistory = (r && r.history) ? r.history : [];
+    renderHistory();
+  }catch(e){ toast('تعذّر تحميل السجل'); }
+  document.getElementById('loader').classList.add('hidden');
+}
+
+function levelIdx(l){
+  const i = (DATA.levels || []).findIndex(function(x){ return x.level === l; });
+  return i < 0 ? 99 : i;
+}
+
+function renderHistory(){
+  const box = document.getElementById('historyList');
+  const q = (document.getElementById('histSearch').value || '').trim();
+  let rows = allHistory;
+  if(q) rows = rows.filter(function(r){ return String(r.studentName).indexOf(q) !== -1; });
+
+  if(!rows.length){
+    box.innerHTML = '<div class="empty"><div class="empty-icon">📋</div><p>لا توجد نتائج مسجلة</p></div>';
+    return;
+  }
+  // بناء الشجرة: فرع ← حلقة ← طالب ← نتائج
+  const tree = {};
+  rows.forEach(function(r){
+    const b = r.branch || '—', h = r.halaqah || '—', s = r.studentName || '—';
+    if(!tree[b]) tree[b] = {};
+    if(!tree[b][h]) tree[b][h] = {};
+    if(!tree[b][h][s]) tree[b][h][s] = [];
+    tree[b][h][s].push(r);
   });
+
+  let html = '';
+  Object.keys(tree).sort(function(a,b){ return a.localeCompare(b,'ar'); }).forEach(function(b, bi){
+    let bCount = 0;
+    Object.keys(tree[b]).forEach(function(h){
+      Object.keys(tree[b][h]).forEach(function(s){ bCount += tree[b][h][s].length; }); });
+
+    html += '<div class="grp-branch"><div class="grp-head" onclick="tog(this)">' +
+      '<span>🏛️ ' + b + '</span><span class="cnt">' + bCount + ' نتيجة</span></div><div class="grp-body' +
+      (bi === 0 ? ' open' : '') + '">';
+
+    Object.keys(tree[b]).sort(function(a,c){ return a.localeCompare(c,'ar'); }).forEach(function(h){
+      let hCount = 0;
+      Object.keys(tree[b][h]).forEach(function(s){ hCount += tree[b][h][s].length; });
+      html += '<div class="hal-head" onclick="tog(this)"><span>🕌 ' + h +
+        '</span><span class="cnt" style="background:#DCEDEB;color:#14524F">' + hCount + '</span></div><div class="hal-body">';
+
+      Object.keys(tree[b][h]).sort(function(a,c){ return a.localeCompare(c,'ar'); }).forEach(function(s){
+        const list = tree[b][h][s].slice().sort(function(x,y){
+          const d = levelIdx(x.level) - levelIdx(y.level);
+          return d !== 0 ? d : String(x.date).localeCompare(String(y.date));
+        });
+        html += '<div class="std-block"><div class="std-name">👤 ' + s + '</div>';
+        list.forEach(function(r){
+          const p = String(r.result).trim() === PASS_TXT;
+          html += '<div class="res-row"><div class="res-info"><div class="res-lv">' + r.level + '</div>' +
+            '<div class="res-meta"><span>' + r.result + '</span><span>محاولة ' + r.attempt + '</span>' +
+            '<span>⚠️' + r.warnings + ' ❌' + r.errors + '</span><span>' + r.date + '</span></div></div>' +
+            '<div class="res-right"><div class="res-grade ' + (p ? 'pass' : 'fail') + '">' + fmtG(r.grade) + '</div>' +
+            '<button class="icon-btn" title="واتساب" onclick="waFromHist(\'' + r.id + '\')">📱</button>' +
+            '<button class="icon-btn" title="تعديل" onclick="openEdit(\'' + r.id + '\')">✏️</button>' +
+            '<button class="icon-btn" title="حذف" onclick="askDelete(\'' + r.id + '\')">🗑️</button></div></div>';
+        });
+        html += '</div>';
+      });
+      html += '</div>';
+    });
+    html += '</div></div>';
+  });
+  box.innerHTML = html;
+}
+
+function tog(el){
+  const b = el.nextElementSibling;
+  if(b) b.classList.toggle('open');
+}
+
+function findRec(id){ return allHistory.find(function(r){ return String(r.id) === String(id); }); }
+
+function waFromHist(id){
+  const r = findRec(id); if(!r) return;
+  const L = (DATA.levels || []).find(function(x){ return x.level === r.level; });
+  waSend(r.studentName, r.level, L ? L.range : '', r.warnings, r.errors, Number(r.grade));
+}
+
+/* ═══════════════════════════════════════
+   تعديل / حذف النتائج
+   ═══════════════════════════════════════ */
+function openEdit(id){
+  const r = findRec(id); if(!r) return;
+  const ev = (DATA.evalTable || []).find(function(x){ return x.level === r.level; });
+  if(!ev){ toast('تعذّر إيجاد معيار التقييم لهذا المستوى'); return; }
+  editCtx = { id:id, rec:r, ev:ev, warnings:Number(r.warnings) || 0, errors:Number(r.errors) || 0 };
+  document.getElementById('editSub').innerHTML = '<b>' + r.studentName + '</b><br>' + r.level + ' — ' + r.branch + ' / ' + r.halaqah;
+  document.getElementById('ewLbl').textContent = 'خصم: ' + (+ev.warningDeduction).toFixed(4);
+  document.getElementById('eeLbl').textContent = 'خصم: ' + (+ev.errorDeduction).toFixed(4);
+  document.getElementById('eWarnings').textContent = editCtx.warnings;
+  document.getElementById('eErrors').textContent = editCtx.errors;
+  eCalc();
+  document.getElementById('editModal').classList.add('show');
+}
+function eChg(t, d){
+  if(!editCtx) return;
+  editCtx[t] = Math.max(0, editCtx[t] + d);
+  document.getElementById(t === 'warnings' ? 'eWarnings' : 'eErrors').textContent = editCtx[t];
+  eCalc();
+}
+function eCalc(){
+  if(!editCtx) return;
+  const g = gradeOf(editCtx.warnings, editCtx.errors, editCtx.ev), p = g >= 90;
+  document.getElementById('eGradeBox').className = 'grade-box ' + (p ? 'pass' : 'fail');
+  const n = document.getElementById('eGradeNum');
+  n.className = 'grade-number ' + (p ? 'pass' : 'fail'); n.textContent = fmtG(g);
+  const r = document.getElementById('eGradeRes');
+  r.className = 'grade-result ' + (p ? 'pass' : 'fail'); r.textContent = p ? PASS_TXT : FAIL_TXT;
+}
+async function saveEdit(){
+  if(!editCtx) return;
+  const g = gradeOf(editCtx.warnings, editCtx.errors, editCtx.ev);
+  closeModal('editModal');
+  document.getElementById('loader').classList.remove('hidden');
+  try{
+    const r = await api({ action:'updateTestResult', id:editCtx.id,
+      warnings:editCtx.warnings, errors:editCtx.errors, grade:g,
+      result: g >= 90 ? PASS_TXT : FAIL_TXT }, { tries:2, timeout:35000 });
+    document.getElementById('loader').classList.add('hidden');
+    if(r && r.success){ toast('✅ ' + r.message); await loadHistory(); }
+    else toast('⚠️ ' + ((r && r.message) || 'تعذّر التعديل'));
+  }catch(e){
+    document.getElementById('loader').classList.add('hidden');
+    toast('❌ تعذّر التعديل — تحقق من الاتصال');
+  }
+  editCtx = null;
+}
+function askDelete(id){
+  const r = findRec(id); if(!r) return;
+  document.getElementById('cfTitle').textContent = 'حذف النتيجة';
+  document.getElementById('cfMsg').innerHTML = 'سيتم حذف نتيجة <b>' + r.studentName + '</b> في <b>' + r.level +
+    '</b> نهائياً من قاعدة البيانات ومن صفحة البيانات الموحدة.<br>هل أنت متأكد؟';
+  document.getElementById('cfOk').onclick = function(){ doDelete(id); };
+  document.getElementById('confirmModal').classList.add('show');
+}
+async function doDelete(id){
+  closeModal('confirmModal');
+  document.getElementById('loader').classList.remove('hidden');
+  try{
+    const r = await api({ action:'deleteTestResult', id:id }, { tries:2, timeout:35000 });
+    document.getElementById('loader').classList.add('hidden');
+    if(r && r.success){ toast('🗑️ ' + r.message); await loadHistory(); }
+    else toast('⚠️ ' + ((r && r.message) || 'تعذّر الحذف'));
+  }catch(e){
+    document.getElementById('loader').classList.add('hidden');
+    toast('❌ تعذّر الحذف — تحقق من الاتصال');
+  }
+}
+function closeModal(id){ document.getElementById(id).classList.remove('show'); }
+
+/* ═══════════════════════════════════════
+   إدارة الطلاب
+   ═══════════════════════════════════════ */
+function mFillBranches(){
+  const s = document.getElementById('mBranch');
+  const cur = s.value;
+  s.innerHTML = '<option value="">اختر الفرع</option>';
+  Object.keys(DATA.students || {}).forEach(function(b){
+    s.innerHTML += '<option value="' + b + '">' + b + '</option>'; });
+  if(cur) s.value = cur;
+}
+function mOnBranch(){
+  const b = document.getElementById('mBranch').value;
+  const h = document.getElementById('mHalaqah');
+  h.innerHTML = '<option value="">اختر الحلقة</option>';
+  h.disabled = !b;
+  if(b && DATA.students[b]) Object.keys(DATA.students[b]).forEach(function(x){
+    h.innerHTML += '<option value="' + x + '">' + x + '</option>'; });
+  mRender();
+}
+function mRender(){
+  const b = document.getElementById('mBranch').value, h = document.getElementById('mHalaqah').value;
+  const list = document.getElementById('mList');
+  document.getElementById('mAddCard').style.display = (b && h) ? '' : 'none';
+  if(!b || !h){ list.innerHTML = ''; return; }
+  const arr = (DATA.students[b] && DATA.students[b][h]) ? DATA.students[b][h] : [];
+  if(!arr.length){ list.innerHTML = '<div class="empty"><div class="empty-icon">👥</div><p>لا يوجد طلاب في هذه الحلقة</p></div>'; return; }
+  list.innerHTML = '<div class="card" style="padding:12px"><div class="card-title">قائمة الطلاب (' + arr.length + ')</div>' +
+    arr.map(function(n){
+      return '<div class="std-item"><span>' + n + '</span>' +
+        '<button class="icon-btn" onclick="mAskDel(\'' + n.replace(/'/g,"\\'") + '\')">🗑️</button></div>';
+    }).join('') + '</div>';
+}
+async function mAdd(){
+  const b = document.getElementById('mBranch').value, h = document.getElementById('mHalaqah').value;
+  const n = (document.getElementById('mNewName').value || '').trim();
+  if(!b || !h || !n){ toast('أكمل البيانات أولاً'); return; }
+  document.getElementById('loader').classList.remove('hidden');
+  try{
+    const r = await api({ action:'addStudent', branch:b, halaqah:h, studentName:n }, { tries:2, timeout:30000 });
+    document.getElementById('loader').classList.add('hidden');
+    if(r && r.success){
+      toast('✅ ' + r.message);
+      document.getElementById('mNewName').value = '';
+      await refreshData(false); mRender();
+    } else toast('⚠️ ' + ((r && r.message) || 'تعذّرت الإضافة'));
+  }catch(e){
+    document.getElementById('loader').classList.add('hidden');
+    toast('❌ تعذّرت الإضافة — تحقق من الاتصال');
+  }
+}
+function mAskDel(name){
+  const b = document.getElementById('mBranch').value, h = document.getElementById('mHalaqah').value;
+  document.getElementById('cfTitle').textContent = 'حذف طالب';
+  document.getElementById('cfMsg').innerHTML = 'سيتم حذف <b>' + name + '</b> من حلقة <b>' + h +
+    '</b>.<br><small>ملاحظة: نتائجه السابقة في السجل تبقى محفوظة.</small>';
+  document.getElementById('cfOk').onclick = function(){ mDel(b, h, name); };
+  document.getElementById('confirmModal').classList.add('show');
+}
+async function mDel(b, h, name){
+  closeModal('confirmModal');
+  document.getElementById('loader').classList.remove('hidden');
+  try{
+    const r = await api({ action:'deleteStudent', branch:b, halaqah:h, studentName:name }, { tries:2, timeout:30000 });
+    document.getElementById('loader').classList.add('hidden');
+    if(r && r.success){ toast('🗑️ ' + r.message); await refreshData(false); mRender(); }
+    else toast('⚠️ ' + ((r && r.message) || 'تعذّر الحذف'));
+  }catch(e){
+    document.getElementById('loader').classList.add('hidden');
+    toast('❌ تعذّر الحذف — تحقق من الاتصال');
+  }
+}
+
+/* ═══════════════════════════════════════
+   أدوات
+   ═══════════════════════════════════════ */
+let toastTimer = null;
+function toast(m){
+  const el = document.getElementById('toast');
+  el.textContent = m; el.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(function(){ el.classList.remove('show'); }, 4000);
+}
+
+/* ═══════════════════════════════════════
+   تثبيت التطبيق
+   ═══════════════════════════════════════ */
+let deferredPrompt = null;
+window.addEventListener('beforeinstallprompt', function(e){
+  e.preventDefault(); deferredPrompt = e;
+  const sa = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+  if(!sa) document.getElementById('installFab').classList.add('show');
+});
+function triggerInstall(){
+  if(!deferredPrompt) return;
+  deferredPrompt.prompt();
+  deferredPrompt.userChoice.then(function(){
+    deferredPrompt = null;
+    document.getElementById('installFab').classList.remove('show');
+  });
+}
+window.addEventListener('appinstalled', function(){
+  document.getElementById('installFab').classList.remove('show'); deferredPrompt = null;
+});
+window.addEventListener('load', function(){
+  const iOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
+  const sa = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+  try{ if(localStorage.getItem('himam_ios_dismissed') === 'permanent') return; }catch(e){}
+  if(iOS && !sa) setTimeout(function(){ document.getElementById('installOverlay').classList.add('show'); }, 2500);
+});
+function dismissInstall(p){
+  document.getElementById('installOverlay').classList.remove('show');
+  if(p){ try{ localStorage.setItem('himam_ios_dismissed','permanent'); }catch(e){} }
+}
+if('serviceWorker' in navigator){
+  window.addEventListener('load', function(){ navigator.serviceWorker.register('sw.js').catch(function(){}); });
 }
 </script>
 </body>
