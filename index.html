@@ -262,7 +262,7 @@ body{font-family:'Cairo',sans-serif;background:#F0F4F3;color:#1F2937;min-height:
   </div>
 </div>
 
-<!-- نافذة تثبيت iOS -->
+<!-- نافذة تثبيت التطبيق -->
 <div class="modal-ov" id="installOverlay">
   <div class="modal">
     <div style="text-align:center;margin-bottom:14px">
@@ -270,10 +270,20 @@ body{font-family:'Cairo',sans-serif;background:#F0F4F3;color:#1F2937;min-height:
       <h3>أضف اختبارات همم لشاشتك</h3>
       <div class="sub">للوصول السريع كأي تطبيق على جوالك</div>
     </div>
-    <div class="install-steps">
-      <div class="install-step"><div class="install-step-num">1</div><div>اضغط أيقونة المشاركة أسفل Safari</div></div>
-      <div class="install-step"><div class="install-step-num">2</div><div>اختر <b>«إضافة إلى الشاشة الرئيسية»</b></div></div>
-      <div class="install-step"><div class="install-step-num">3</div><div>اضغط <b>«إضافة»</b> في الأعلى</div></div>
+    <div style="display:flex;gap:6px;margin-bottom:12px;background:var(--gray-light);padding:4px;border-radius:10px">
+      <button class="tab" id="tabAnd" onclick="swTab('and')" style="flex:1;border:none;border-radius:8px;padding:8px;font-size:12px;font-weight:700;background:#fff;color:var(--teal)">📱 أندرويد</button>
+      <button class="tab" id="tabIos" onclick="swTab('ios')" style="flex:1;border:none;border-radius:8px;padding:8px;font-size:12px;font-weight:700;background:none;color:var(--gray)">🍎 آيفون</button>
+    </div>
+    <div class="install-steps" id="stepsAnd">
+      <div class="install-step"><div class="install-step-num">1</div><div>اضغط أيقونة القائمة <b>⋮</b> أعلى متصفح Chrome</div></div>
+      <div class="install-step"><div class="install-step-num">2</div><div>اختر <b>«إضافة إلى الشاشة الرئيسية»</b> أو <b>«تثبيت التطبيق»</b></div></div>
+      <div class="install-step"><div class="install-step-num">3</div><div>اضغط <b>«تثبيت»</b> — ستظهر الأيقونة على شاشتك</div></div>
+    </div>
+    <div class="install-steps" id="stepsIos" style="display:none">
+      <div class="install-step"><div class="install-step-num">1</div><div>افتح الرابط في متصفح <b>Safari</b> (وليس Chrome)</div></div>
+      <div class="install-step"><div class="install-step-num">2</div><div>اضغط أيقونة المشاركة أسفل الشاشة</div></div>
+      <div class="install-step"><div class="install-step-num">3</div><div>اختر <b>«إضافة إلى الشاشة الرئيسية»</b></div></div>
+      <div class="install-step"><div class="install-step-num">4</div><div>اضغط <b>«إضافة»</b> في الأعلى</div></div>
     </div>
     <div class="modal-actions">
       <button class="btn btn-outline" onclick="dismissInstall(true)">لا تظهر مجدداً</button>
@@ -856,34 +866,97 @@ function toast(m){
    تثبيت التطبيق
    ═══════════════════════════════════════ */
 let deferredPrompt = null;
-window.addEventListener('beforeinstallprompt', function(e){
-  e.preventDefault(); deferredPrompt = e;
-  const sa = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
-  if(!sa) document.getElementById('installFab').classList.add('show');
-});
-function triggerInstall(){
-  if(!deferredPrompt) return;
-  deferredPrompt.prompt();
-  deferredPrompt.userChoice.then(function(){
-    deferredPrompt = null;
-    document.getElementById('installFab').classList.remove('show');
-  });
+
+function isStandalone(){
+  return window.matchMedia('(display-mode: standalone)').matches
+      || window.navigator.standalone === true;
 }
+function isMobile(){
+  return /iphone|ipad|ipod|android/i.test(navigator.userAgent);
+}
+
+// Chrome/أندرويد: التثبيت التلقائي بضغطة واحدة
+window.addEventListener('beforeinstallprompt', function(e){
+  e.preventDefault();
+  deferredPrompt = e;
+  showFab();
+});
+
+// يظهر الزر دائماً على الجوال ما لم يكن التطبيق مثبّتاً
+function showFab(){
+  if(isMobile() && !isStandalone()){
+    document.getElementById('installFab').classList.add('show');
+  }
+}
+
+function triggerInstall(){
+  if(deferredPrompt){
+    // التثبيت التلقائي متاح
+    deferredPrompt.prompt();
+    deferredPrompt.userChoice.then(function(c){
+      deferredPrompt = null;
+      if(c && c.outcome === 'accepted'){
+        document.getElementById('installFab').classList.remove('show');
+      }
+    });
+  } else {
+    // بديل: عرض التعليمات اليدوية حسب نوع الجهاز
+    swTab(/iphone|ipad|ipod/i.test(navigator.userAgent) ? 'ios' : 'and');
+    document.getElementById('installOverlay').classList.add('show');
+  }
+}
+
+function swTab(t){
+  const and = t === 'and';
+  document.getElementById('stepsAnd').style.display = and ? '' : 'none';
+  document.getElementById('stepsIos').style.display = and ? 'none' : '';
+  const a = document.getElementById('tabAnd'), i = document.getElementById('tabIos');
+  a.style.background = and ? '#fff' : 'none';
+  a.style.color = and ? 'var(--teal)' : 'var(--gray)';
+  i.style.background = and ? 'none' : '#fff';
+  i.style.color = and ? 'var(--gray)' : 'var(--teal)';
+}
+
 window.addEventListener('appinstalled', function(){
-  document.getElementById('installFab').classList.remove('show'); deferredPrompt = null;
+  document.getElementById('installFab').classList.remove('show');
+  deferredPrompt = null;
 });
+
 window.addEventListener('load', function(){
-  const iOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
-  const sa = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
-  try{ if(localStorage.getItem('himam_ios_dismissed') === 'permanent') return; }catch(e){}
-  if(iOS && !sa) setTimeout(function(){ document.getElementById('installOverlay').classList.add('show'); }, 2500);
+  if(isStandalone()) return;
+  try{ if(localStorage.getItem('himam_install_dismissed') === 'permanent') return; }catch(e){}
+  // إظهار الزر بعد لحظة (سواء دعم المتصفح التثبيت التلقائي أم لا)
+  setTimeout(showFab, 1200);
+  // على iOS نعرض التعليمات تلقائياً لأنه لا يدعم التثبيت التلقائي
+  if(/iphone|ipad|ipod/i.test(navigator.userAgent)){
+    setTimeout(function(){
+      swTab('ios');
+      document.getElementById('installOverlay').classList.add('show');
+    }, 2600);
+  }
 });
+
 function dismissInstall(p){
   document.getElementById('installOverlay').classList.remove('show');
-  if(p){ try{ localStorage.setItem('himam_ios_dismissed','permanent'); }catch(e){} }
+  if(p){
+    try{ localStorage.setItem('himam_install_dismissed','permanent'); }catch(e){}
+    document.getElementById('installFab').classList.remove('show');
+  }
 }
+
 if('serviceWorker' in navigator){
-  window.addEventListener('load', function(){ navigator.serviceWorker.register('sw.js').catch(function(){}); });
+  window.addEventListener('load', function(){ navigator.serviceWorker.register('sw.js').then(function(reg){
+      reg.update();
+      reg.addEventListener('updatefound', function(){
+        const nw = reg.installing;
+        if(!nw) return;
+        nw.addEventListener('statechange', function(){
+          if(nw.state === 'installed' && navigator.serviceWorker.controller){
+            toast('تم تحديث التطبيق — أعد فتحه لتطبيق التحديث');
+          }
+        });
+      });
+    }).catch(function(){}); });
 }
 </script>
 </body>
