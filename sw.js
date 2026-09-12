@@ -1,7 +1,7 @@
 // Service Worker - حاسبة همم
 // يمكّن تثبيت التطبيق على الجوال (PWA)
 
-const CACHE_NAME = 'himam-calc-v1';
+const CACHE_NAME = 'himam-exams-v3';
 const ASSETS = [
   './',
   './index.html',
