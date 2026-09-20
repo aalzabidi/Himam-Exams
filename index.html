@@ -301,8 +301,58 @@ const SECRET_TOKEN = 'RazHuS7DPKk85NiiaWZAJANTFXRyMCij';
 const PASS_TXT = 'مجتاز', FAIL_TXT = 'غير مجتاز';
 
 let DATA = { students:{}, evalTable:[], levels:[] };
+let lastDataSig = '';     // بصمة البيانات لتفادي إعادة بناء القوائم بلا داعٍ
+let restoring   = false;  // أثناء استعادة الاختيارات لا نصفّر العدّادات
+let lastSel     = '';     // آخر (طالب|مستوى) لمعرفة التغيير الحقيقي
+let lastRefresh = 0;
 let STATE = { warnings:0, errors:0 };
 let currentEval = null, allHistory = [], editCtx = null, lastStatus = null;
+
+/* ═══════════════════════════════════════
+   حفظ واستعادة الإدخال الجاري
+   ═══════════════════════════════════════ */
+function gv(id){ const el = document.getElementById(id); return el ? el.value : ''; }
+
+function saveDraft(){
+  try{
+    localStorage.setItem('himam_draft', JSON.stringify({
+      b:gv('selBranch'), h:gv('selHalaqah'), s:gv('selStudent'), l:gv('selLevel'),
+      w:STATE.warnings, e:STATE.errors, t:Date.now()
+    }));
+  }catch(e){}
+}
+function loadDraft(){
+  try{
+    const d = JSON.parse(localStorage.getItem('himam_draft') || 'null');
+    if(!d) return null;
+    if(Date.now() - d.t > 12*60*60*1000) return null;
+    return d;
+  }catch(e){ return null; }
+}
+function clearDraft(){ try{ localStorage.removeItem('himam_draft'); }catch(e){} }
+
+// استعادة الاختيارات والعدّادات دون تصفير
+function applySelection(b, h, s, l, w, e){
+  restoring = true;
+  try{
+    if(b){ document.getElementById('selBranch').value = b; onBranchChange(); }
+    if(h){ document.getElementById('selHalaqah').value = h; onHalaqahChange(); }
+    if(s){ document.getElementById('selStudent').value = s;
+           document.getElementById('selLevel').disabled = false; }
+    if(l){ document.getElementById('selLevel').value = l; onLevelChange(); }
+  }catch(err){}
+  restoring = false;
+
+  STATE.warnings = Number(w) || 0;
+  STATE.errors   = Number(e) || 0;
+  const wv = document.getElementById('warningsVal'), ev = document.getElementById('errorsVal');
+  if(wv) wv.textContent = STATE.warnings;
+  if(ev) ev.textContent = STATE.errors;
+  if(s && l && currentEval){
+    document.getElementById('gradingCard').style.display = '';
+    calc();
+  }
+}
 
 /* ═══════════════════════════════════════
    طبقة الاتصال — JSONP مع إعادة محاولة
@@ -369,8 +419,16 @@ window.addEventListener('DOMContentLoaded', function(){
   let cached = false;
   try{
     const c = localStorage.getItem('himam_v2_data');
-    if(c){ DATA = JSON.parse(c); fillBranches(); fillLevels(); mFillBranches(); cached = true;
-           document.getElementById('loader').classList.add('hidden'); }
+    if(c){
+      DATA = JSON.parse(c);
+      lastDataSig = c;                 // نفس البصمة حتى لا يُعاد بناء القوائم بلا داعٍ
+      fillBranches(); fillLevels(); mFillBranches();
+      cached = true;
+      document.getElementById('loader').classList.add('hidden');
+      // استعادة آخر إدخال لم يُحفظ
+      const d = loadDraft();
+      if(d && d.s && d.l) applySelection(d.b, d.h, d.s, d.l, d.w, d.e);
+    }
   }catch(e){}
   refreshData(!cached);
 });
@@ -380,16 +438,20 @@ async function refreshData(showLoader){
   try{
     const r = await api({ action:'getAllData' });
     if(r && r.success){
-      DATA = r.data;
-      const bs = document.getElementById('selBranch').value;
-      const hs = document.getElementById('selHalaqah').value;
-      const ss = document.getElementById('selStudent').value;
-      fillBranches(); fillLevels(); mFillBranches();
-      if(bs){ document.getElementById('selBranch').value = bs; onBranchChange();
-        if(hs){ document.getElementById('selHalaqah').value = hs; onHalaqahChange();
-          if(ss) document.getElementById('selStudent').value = ss; } }
-      try{ localStorage.setItem('himam_v2_data', JSON.stringify(r.data)); }catch(e){}
+      const sig = JSON.stringify(r.data);
+      // لا نلمس القوائم إطلاقاً إن لم تتغيّر البيانات فعلياً
+      if(sig !== lastDataSig){
+        lastDataSig = sig;
+        DATA = r.data;
+        const b = gv('selBranch'), h = gv('selHalaqah'),
+              s = gv('selStudent'), l = gv('selLevel');
+        const w = STATE.warnings, e = STATE.errors;
+        fillBranches(); fillLevels(); mFillBranches();
+        applySelection(b, h, s, l, w, e);   // إرجاع الاختيارات والعدّادات كما كانت
+        try{ localStorage.setItem('himam_v2_data', sig); }catch(err){}
+      }
     }
+    lastRefresh = Date.now();
   }catch(e){
     if(showLoader) toast('تعذّر تحديث البيانات — تحقق من الاتصال');
   }
@@ -398,8 +460,20 @@ async function refreshData(showLoader){
 
 // تحديث تلقائي عند العودة للتطبيق (يعالج انقطاع القوائم بعد الخمول)
 document.addEventListener('visibilitychange', function(){
-  if(document.visibilityState === 'visible') refreshData(false);
+  if(document.visibilityState !== 'visible'){ saveDraft(); return; }
+  // عند العودة: استعادة الإدخال إن فُقد (لو أغلق النظام التطبيق من الذاكرة)
+  const grading = document.getElementById('gradingCard').style.display !== 'none';
+  if(!grading){
+    const d = loadDraft();
+    if(d && d.s && d.l && Object.keys(DATA.students || {}).length){
+      applySelection(d.b, d.h, d.s, d.l, d.w, d.e);
+    }
+  }
+  // تحديث هادئ كل دقيقة على الأكثر، ولا يعيد بناء القوائم إلا عند تغيّر فعلي
+  if(Date.now() - lastRefresh > 60000) refreshData(false);
 });
+window.addEventListener('pagehide', saveDraft);
+window.addEventListener('blur', saveDraft);
 window.addEventListener('online', function(){ setOffline(false); refreshData(false); });
 window.addEventListener('offline', function(){ setOffline(true); });
 
@@ -506,18 +580,28 @@ function ready(){
   const st = document.getElementById('selStudent').value, lv = document.getElementById('selLevel').value;
   document.getElementById('selLevel').disabled = !st;
   const c = document.getElementById('gradingCard');
+  const sig = st + '|' + lv;
   if(st && lv && currentEval){
     c.style.display = '';
-    STATE = { warnings:0, errors:0 };
-    document.getElementById('warningsVal').textContent = '0';
-    document.getElementById('errorsVal').textContent = '0';
+    // لا نصفّر العدّادات إلا عند تغيير حقيقي للطالب أو المستوى
+    if(!restoring && sig !== lastSel){
+      STATE = { warnings:0, errors:0 };
+      document.getElementById('warningsVal').textContent = '0';
+      document.getElementById('errorsVal').textContent = '0';
+    }
+    lastSel = sig;
     calc();
-  } else c.style.display = 'none';
+  } else {
+    c.style.display = 'none';
+    if(!restoring) lastSel = '';
+  }
+  saveDraft();
 }
 function chg(t, d){
   STATE[t] = Math.max(0, STATE[t] + d);
   document.getElementById(t + 'Val').textContent = STATE[t];
   calc();
+  saveDraft();
 }
 function gradeOf(w, e, ev){
   if(!ev) return 0;
@@ -564,6 +648,7 @@ async function saveResult(){
     if(r && r.success){
       toast('✅ ' + r.message + (r.updated ? '' : (r.attempt ? ' (المحاولة ' + r.attempt + ')' : '')));
       allHistory = [];
+      clearDraft();
       checkStatus();
     } else {
       toast('⚠️ ' + ((r && r.message) || 'تعذّر الحفظ'));
@@ -611,6 +696,7 @@ function resetForm(){
   document.getElementById('attemptBox').style.display = 'none';
   document.getElementById('gradingCard').style.display = 'none';
   currentEval = null; STATE = { warnings:0, errors:0 };
+  lastSel = ''; clearDraft();
   window.scrollTo(0,0);
 }
 
